@@ -12,12 +12,25 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ProgressBar;
 
+import android.os.AsyncTask;
+import android.swedspot.automotiveapi.AutomotiveSignal;
+import android.swedspot.automotiveapi.AutomotiveSignalId;
+import android.swedspot.scs.data.SCSFloat;
+import com.swedspot.automotiveapi.AutomotiveFactory;
+import com.swedspot.automotiveapi.AutomotiveListener;
+import com.swedspot.automotiveapi.AutomotiveManager;
+import com.swedspot.vil.distraction.DriverDistractionLevel;
+import com.swedspot.vil.distraction.DriverDistractionListener;
+import com.swedspot.vil.distraction.LightMode;
+import com.swedspot.vil.distraction.StealthMode;
+import com.swedspot.vil.policy.AutomotiveCertificate;
+
 
 /**
  * Created by hari on 23/03/15.
  */
 public class GearModule extends Fragment {
-
+§
     private ProgressBar progBar;
     private TextView text;
     private Handler mHandler = new Handler();
@@ -37,7 +50,7 @@ public class GearModule extends Fragment {
         new Thread(new Runnable() {
             public void run() {
                 final int presentage = 0;
-                while (mProgressStatus < 63) {
+                while (mProgressStatus < 100) {
                     mProgressStatus += 1;
                     // Update the progress bar
                     mHandler.post(new Runnable() {
@@ -51,7 +64,7 @@ public class GearModule extends Fragment {
 
 
 
-                        Thread.sleep(50);
+                        Thread.sleep(100);
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
