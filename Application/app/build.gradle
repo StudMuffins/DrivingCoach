@@ -25,4 +25,5 @@ dependencies {
     compile files('libs/lib.jar')
     compile files('libs/SDP-1.1.jar')
     compile files('libs/VIL-1.1.jar')
+    compile 'org.slf4j:slf4j-android:1.7.7'
 }

@@ -8,29 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Handler;
 import android.widget.TextView;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ProgressBar;
 
-import android.os.AsyncTask;
-import android.swedspot.automotiveapi.AutomotiveSignal;
-import android.swedspot.automotiveapi.AutomotiveSignalId;
-import android.swedspot.scs.data.SCSFloat;
-import com.swedspot.automotiveapi.AutomotiveFactory;
-import com.swedspot.automotiveapi.AutomotiveListener;
-import com.swedspot.automotiveapi.AutomotiveManager;
-import com.swedspot.vil.distraction.DriverDistractionLevel;
-import com.swedspot.vil.distraction.DriverDistractionListener;
-import com.swedspot.vil.distraction.LightMode;
-import com.swedspot.vil.distraction.StealthMode;
-import com.swedspot.vil.policy.AutomotiveCertificate;
 
 
 /**
  * Created by hari on 23/03/15.
  */
 public class GearModule extends Fragment {
-§
+
     private ProgressBar progBar;
     private TextView text;
     private Handler mHandler = new Handler();

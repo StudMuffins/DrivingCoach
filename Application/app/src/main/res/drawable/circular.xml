@@ -17,7 +17,7 @@
                     android:pivotX="50%"
                     android:pivotY="50%" />
                 <solid
-                    android:color="#C62828"
+                    android:color="#E65100"
                     android:type="sweep" />
             </shape>
         </rotate>
