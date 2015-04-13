@@ -7,9 +7,18 @@
     android:background="#D7CCC8"
     tools:context=".MainActivity">
 
+    <TextView
+        android:textSize="40dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/testText" />
+
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:id="@+id/gearFrag"
         android:name="com.studmuffins.application.GearModule" />
 

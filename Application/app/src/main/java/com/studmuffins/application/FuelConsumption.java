@@ -19,14 +19,14 @@ public class FuelConsumption extends Fragment {
     private Handler mHandler = new Handler();
     private int mProgressStatus = 0;
     private AGASystem aga = new AGASystem();
-    private int fuelInd = aga.fuel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fuel_fragment, container, false);
         progBar = (ProgressBar) view.findViewById(R.id.progressBar);
         text = (TextView) view.findViewById(R.id.Value);
-        progBar.setProgress(fuelInd);
+
+        progBar.setProgress(aga.value);
         //dosomething();
         return view;
     }
