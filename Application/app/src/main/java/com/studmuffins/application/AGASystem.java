@@ -1,8 +1,5 @@
 package com.studmuffins.application;
 
-
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.os.AsyncTask;
 
 import android.swedspot.automotiveapi.AutomotiveSignal;
@@ -20,17 +17,19 @@ import com.swedspot.vil.policy.AutomotiveCertificate;
  */
 public class AGASystem extends AsyncTask <Void, Void, Void> {
 
-    public int value;
+    public static float value;
+    private static final AutomotiveCertificate amc = new AutomotiveCertificate(new byte[0]);
+    AutomotiveManager manager;
 
     @Override
     protected Void doInBackground(Void[] params) {
         // Access to Automotive API
-        AutomotiveListener autoListener = new AutomotiveListener() {
+        AutomotiveListener aml = new AutomotiveListener() {
             @Override
             public void receive(final AutomotiveSignal automotiveSignal) {
                 System.out.println("PING!");
-                value = Math.round(((SCSFloat) automotiveSignal.getData()).getFloatValue());
-                System.out.println(value);
+                value = (((SCSFloat) automotiveSignal.getData()).getFloatValue());
+                System.out.println("AGA"+value);
 
             }
 
@@ -43,8 +42,9 @@ public class AGASystem extends AsyncTask <Void, Void, Void> {
             }
         };
 
-        AutomotiveManager manager = AutomotiveFactory.createAutomotiveManagerInstance(new AutomotiveCertificate(new byte[0]), autoListener, null);
+        manager = AutomotiveFactory.createAutomotiveManagerInstance(amc, aml, null);
         manager.register(AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY); // Register for the speed signal
+        manager.setListener(aml);
         return null;
     }
 }
