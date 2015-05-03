@@ -11,23 +11,18 @@ import com.swedspot.automotiveapi.AutomotiveFactory;
 import com.swedspot.automotiveapi.AutomotiveListener;
 import com.swedspot.automotiveapi.AutomotiveManager;
 import com.swedspot.vil.policy.AutomotiveCertificate;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-
 
 
 /**
  * Created by hari on 12/04/15.
  */
-public class AGASystem {
+class AGASystem extends AsyncTask<Object, Object, Object> {
 
     public static HashMap <Integer, Float> map = new HashMap<>();
     public static float value;
     public static int signal;
     private static final AutomotiveCertificate amc = new AutomotiveCertificate(new byte[0]);
     private AutomotiveManager manager;
-    public static ExecutorService executorService = Executors.newSingleThreadExecutor();
     //if (map.containsKey(AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY)) {
         //value = (SCSFloat) automotiveSignal.getData();
 
@@ -43,7 +38,7 @@ public class AGASystem {
                         it.remove(); // avoids a ConcurrentModificationException
                     }*/
 
-    public AGASystem() {
+    protected Object doInBackground(Object...objects) {
         // Access to Automotive API
         AutomotiveListener aml = new AutomotiveListener() {
             @Override
@@ -65,26 +60,20 @@ public class AGASystem {
             public void notAllowed(int i) {
             }
         };
-        manager = AutomotiveFactory.createAutomotiveManagerInstance(amc, aml, null);
-        doRegister();
+
+        AutomotiveManager manager = AutomotiveFactory.createAutomotiveManagerInstance(amc, aml, null);
+        manager.register(
+                AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY,
+                AutomotiveSignalId.FMS_ENGINE_SPEED,
+                AutomotiveSignalId.FMS_CURRENT_GEAR);
         manager.setListener(aml);
+        return null;
     }
 
     public void addListener(int listener) {
         //System.out.println(listener);
         map.put(listener, value);
         //doRegister(listener);
-    }
-    public void doRegister() {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                manager.register(
-                        AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY,
-                        AutomotiveSignalId.FMS_ENGINE_SPEED);
-
-            }
-        });
     }
 }
 

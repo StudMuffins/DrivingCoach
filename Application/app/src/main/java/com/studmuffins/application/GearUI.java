@@ -25,11 +25,10 @@ public class GearUI extends View {
     private RectF arcGreen = new RectF();
     private int redV;
     private int greenV;
-    private float xC;
-    private float yC;
     private float angle_A;
     private float angle_B;
     private float signal;
+    private String textType;
 
     public GearUI(Context context) {
         super(context);
@@ -39,22 +38,29 @@ public class GearUI extends View {
         super(context, attrs);
     }
 
-    public void setClipping(float progress) {
+    public void setClipping(float progress, float getText) {
         paint = new Paint();
+        int convertText = (int)getText;
+        textType = Integer.toString(convertText);
 
+        //smooth out the edges of the shapes
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         signal = progress;
+
+        //calculate the angle of percentage
         angle_A = (progress * 260) / 100;
         angle_B = 0;
 
+        //run animation for the red arc
         if (progress >= 1) {
             animateR();
         }else {
             redV = 0;
         }
 
-        if (progress >= 20 && progress <= 30) {
+        //run animation for the green arc
+        if (progress >= 20) {
             angle_B = angle_A - 54;
             animateG();
         }else {
@@ -65,6 +71,7 @@ public class GearUI extends View {
     }
 
     void animateR() {
+        //count from start value to end values with a decelerating speed of a set duration
         ValueAnimator up = ValueAnimator.ofInt(0, 360);
         up.setDuration(300);
         up.setInterpolator(new DecelerateInterpolator());
@@ -76,12 +83,14 @@ public class GearUI extends View {
             }
         });
 
+        //start animation at a certain percent
         if (redV == 0) {
             up.start();
         }
     }
 
     void animateG() {
+        //count from start value to end values with a decelerating speed of a set duration
         ValueAnimator up = ValueAnimator.ofInt(0, 390);
         up.setDuration(300);
         up.setInterpolator(new DecelerateInterpolator());
@@ -93,6 +102,7 @@ public class GearUI extends View {
             }
         });
 
+        //count from start value to end values with a accelerating speed of a set duration
         ValueAnimator down = ValueAnimator.ofInt(390, 0);
         down.setDuration(300);
         down.setInterpolator(new AccelerateInterpolator());
@@ -104,10 +114,11 @@ public class GearUI extends View {
             }
         });
 
+        //start animation at a certain percent
         if (greenV == 0 && signal < 30) {
             up.start();
         }
-        if (greenV > 0 && signal > 30) {
+        if (greenV == 390 && signal > 30) {
             down.start();
         }
     }
@@ -117,19 +128,23 @@ public class GearUI extends View {
         super.onDraw(canvas);
         //Clip the canvas
 
+        //get the width and height of the canvas
         //float width = getWidth();
         float height = getHeight();
-        xC = 400;
-        yC = height / 2;
+        float xC = 400;
+        float yC = height / 2;
 
         //float xValue = scaleX;
         //arcRed.set(xC - (320 + redV), yC - (320 + redV), xC + (320 + redV), yC + (320 + redV));
-        arcRed.set(xC - redV, yC - redV, xC + redV, yC + redV);
         //arcGreen.set(xC - (320 + greenV), yC - (320 + greenV), xC + (320 + greenV), yC + (320 + greenV));
+
+        //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
+        arcRed.set(xC - redV, yC - redV, xC + redV, yC + redV);
         arcGreen.set(xC - greenV, yC - greenV, xC + greenV, yC + greenV);
         arcDial.set(xC - 320, yC - 320, xC + 320, yC + 320);
         arcSig.set(xC - 280, yC - 280, xC + 280, yC + 280);
 
+        //Colour and draw the clip arcs of each rectangle
         paint.setColor(Color.parseColor("#DD2C00"));
         paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         canvas.drawArc(arcRed, 140, angle_A, true, paint);
@@ -138,6 +153,7 @@ public class GearUI extends View {
         paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         canvas.drawArc(arcGreen, 54 + 140, angle_B, true, paint);
 
+        //colour the count down signals
         paint.setColor(Color.parseColor("#F5F5F5"));
         paint.setShadowLayer(16.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         if (signal >= 16 && signal <= 30) {
@@ -150,10 +166,11 @@ public class GearUI extends View {
         }
         canvas.drawArc(arcDial, 0, 360, true, paint);
 
+        //colour and draw the gear value text
         paint.clearShadowLayer();
         paint.setColor(Color.parseColor("#000000"));
         paint.setAlpha(208);
         paint.setTextSize(400);
-        canvas.drawText("5", xC - 125, yC + 150, paint);
+        canvas.drawText(textType, xC - 125, yC + 150, paint);
     }
 }

@@ -5,22 +5,21 @@ package com.studmuffins.application;
  */
 
 import android.app.Fragment;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Handler;
-import android.widget.TextView;
 import android.swedspot.automotiveapi.AutomotiveSignalId;
 
 public class GearModule extends Fragment {
 
     private GearUI ui;
-    private TextView text;
+    private Float text;
     private Handler mHandler = new Handler();
-    private Float print;
-    private float signal;
+    private Float signal;
+    private float sendSignal;
+    private float sendText;
     private float progress;
     private AGASystem aga = new AGASystem();
 
@@ -29,9 +28,6 @@ public class GearModule extends Fragment {
         View view = inflater.inflate(R.layout.gear_fragment, container, false);
         ui = (GearUI) view.findViewById(R.id.UI);
         ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        text = (TextView) view.findViewById(R.id.RPM);
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(),"digital-7.ttf");
-        text.setTypeface(font);
 
         autoListener();
         return view;
@@ -42,18 +38,22 @@ public class GearModule extends Fragment {
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
-                    print = aga.map.get(AutomotiveSignalId.FMS_ENGINE_SPEED);
+                    signal = aga.map.get(AutomotiveSignalId.FMS_ENGINE_SPEED);
+                    text = aga.map.get(AutomotiveSignalId.FMS_CURRENT_GEAR);
 
 
-                    if(print != null) {
-                        signal = print.floatValue();
+                    if(signal != null) {
+                        sendSignal = signal;
+                    }
+                    if(text != null) {
+                        sendText = text;
                     }
 
-                    progress = (signal / 10000) * 100;
+                    progress = (sendSignal / 10000) * 100;
 
                     mHandler.post(new Runnable() {
                         public void run() {
-                            ui.setClipping(progress);
+                            ui.setClipping(progress, sendText);
                         }
                     });
 
