@@ -8,14 +8,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="10dp"
-        android:layout_height="500dp"
-        android:layout_centerHorizontal="true"
-        android:indeterminate="false"
-        android:max="100"
-        android:progressDrawable="@drawable/scale" />
+    <com.studmuffins.application.FuelUI
+        android:id="@+id/UI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"/>
 
 </LinearLayout>
