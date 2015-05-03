@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.swedspot.automotiveapi.AutomotiveSignal;
 import android.swedspot.automotiveapi.AutomotiveSignalId;
 import android.swedspot.scs.data.SCSFloat;
+import android.swedspot.scs.data.SCSShort;
 
 import com.swedspot.automotiveapi.AutomotiveFactory;
 import com.swedspot.automotiveapi.AutomotiveListener;
@@ -46,9 +47,14 @@ class AGASystem extends AsyncTask<Object, Object, Object> {
 
                 //System.out.println("PING!");
                 signal = automotiveSignal.getSignalId();
-                value = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+
+                if (signal == AutomotiveSignalId.FMS_CURRENT_GEAR) {
+                    value = ((SCSShort) automotiveSignal.getData()).getShortValue();
+                }else {
+                    value = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+                }
                 map.put(signal, value);
-                //System.out.println(" signal: " + signal +" value: " + value);
+                //System.out.println(" signal: " + signal + " value: " + value);
 
             }
 

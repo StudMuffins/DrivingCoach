@@ -21,9 +21,10 @@ public class FuelConsumption extends Fragment {
     private FuelUI ui;
     private TextView text;
     private Handler mHandler = new Handler();
-    private static float mProgressStatus;
     private AGASystem aga = new AGASystem();
-    private boolean newSwitch = true;
+    private Float signal;
+    private float sendSignal;
+    private float progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,14 +41,22 @@ public class FuelConsumption extends Fragment {
         new Thread(new Runnable() {
             public void run() {
                 final int presentage = 0;
-                while (mProgressStatus < 100) {
-                    mProgressStatus += 1;
-                    //mProgressStatus = Math.round(aga.value);
+                while (true) {
+                    signal = aga.map.get(AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY);
+
+                    if (signal != null) {
+                        sendSignal = signal;
+                    }
+                    float convertSignal = sendSignal * 100;
+                    if (convertSignal >= 10) {
+                        convertSignal = 10;
+                        progress = (convertSignal/10) * 100;
+                    }
                     //Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
-                            //ui.setClipping(mProgressStatus);
-                            text.setText(""+mProgressStatus+"%");
+                            ui.setClipping(progress);
+                            text.setText(""+progress+"%");
                         }
                     });
                     try {
