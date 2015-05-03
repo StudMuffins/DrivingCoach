@@ -19,14 +19,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/gearFrag"
         android:name="com.studmuffins.application.GearModule"/>
-    <!--
+
+
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fuelFrag"
-        android:name="com.studmuffins.application.FuelConsumption"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true" />
-        -->
+        android:name="com.studmuffins.application.FuelConsumption" />
+
 
 </FrameLayout>

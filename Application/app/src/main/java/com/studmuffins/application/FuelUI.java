@@ -9,19 +9,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class FuelUI extends View {
 
     private Paint paint;
-    private RectF arcDial = new RectF();
-    private RectF arcDial2 = new RectF();
+
     private Rect rectECO = new Rect();
     private Rect rectFUEL = new Rect();
-    private float angle_A;
-    private float angle_B;
+    private float signal;
+    private String textType;
+    private int clipHeight;
+    private int yC;
 
     public FuelUI(Context context) {
         super(context);
@@ -31,45 +31,47 @@ public class FuelUI extends View {
         super(context, attrs);
     }
 
-    /*public void setClipping(float progress) {
+    public void setClipping(float progress) {
         paint = new Paint();
-        angle_A = (progress * 260) / 100;
-        angle_B = 0;
+        //int convertText = (int)getText;
+        //textType = Integer.toString(convertText);
+
+        //apply ANTI_ALIAS for smoothing out the edges of the shapes
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.FILL);
+        signal = progress;
+
+        clipHeight = (int) (progress * yC) / 100;
         invalidate();
-    }*/
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint = new Paint();
         //Clip the canvas
-        int width = getWidth();
-        int height = getHeight();
-        float xC = width/2;
-        float yC = height/2;
-        final int xR = 40 - 25/2;
 
-        rectECO.set( xR, 40, xR + 25, height - 40);
+        //get the width and height of the canvas
+        float width = getWidth();
+        float height = getHeight();
+        int xC = (int) width;
+        yC = (int) height;
 
-        rectFUEL.set( xR, 500, xR + 25, height - 40);
-        arcDial.set( 0, 0, 80, 80);
-        arcDial2.set( 0, height - 80, 80, height);
-
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
+        rectECO.set(xC - 25, 0, xC, yC);
+        rectFUEL.set(xC - 25, yC - clipHeight, xC, yC);
+        //Colour and draw the clip arcs of each rectangle
         paint.setColor(Color.parseColor("#64DD17"));
-       // paint.setShadowLayer(10, 0, 0, Color.BLACK);
+        paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         canvas.drawRect(rectECO, paint);
-        //paint.clearShadowLayer();
+
         paint.setColor(Color.parseColor("#424242"));
         canvas.drawRect(rectFUEL, paint);
 
-        paint.setColor(Color.parseColor("#64DD17"));
-        //paint.setShadowLayer(10, 0, 0, Color.BLACK);
-        canvas.drawArc(arcDial, 0, 360, true, paint);
-        //paint.clearShadowLayer();
-        paint.setColor(Color.parseColor("#424242"));
-        //paint.setShadowLayer(10, 0, 0, Color.BLACK);
-        canvas.drawArc(arcDial2, 0, 360, true, paint);
-        //paint.clearShadowLayer();
+        //colour and draw the gear value text
+        paint.clearShadowLayer();
+        paint.setColor(Color.parseColor("#000000"));
+        paint.setAlpha(208);
+        paint.setTextSize(400);
+        //canvas.drawText(textType, xC - 125, yC + 150, paint);
     }
 }

@@ -21,6 +21,7 @@ public class GearModule extends Fragment {
     private float sendSignal;
     private float sendText;
     private float progress;
+    private float oldText = 1;
     private AGASystem aga = new AGASystem();
 
     @Override
@@ -41,15 +42,16 @@ public class GearModule extends Fragment {
                     signal = aga.map.get(AutomotiveSignalId.FMS_ENGINE_SPEED);
                     text = aga.map.get(AutomotiveSignalId.FMS_CURRENT_GEAR);
 
-
                     if(signal != null) {
                         sendSignal = signal;
                     }
                     if(text != null) {
                         sendText = text;
+                        //System.out.println("Gear Level: " + text);
                     }
 
                     progress = (sendSignal / 10000) * 100;
+                    gearChange();
 
                     mHandler.post(new Runnable() {
                         public void run() {
@@ -65,5 +67,20 @@ public class GearModule extends Fragment {
                 }
             }
         }).start();
+    }
+
+    public void gearChange() {
+        if(oldText < sendText) {
+            if (progress >= 20 && progress < 25) {
+
+            } else if (progress >= 25 && progress <= 30) {
+
+            }else if (progress < 20) {
+
+            }else if (progress > 30) {
+
+            }
+            oldText = sendText;
+        }
     }
 }

@@ -41,9 +41,23 @@ public class GearUI extends View {
     public void setClipping(float progress, float getText) {
         paint = new Paint();
         int convertText = (int)getText;
-        textType = Integer.toString(convertText);
 
-        //smooth out the edges of the shapes
+        if(convertText == 251) {
+            textType = "P";
+        }else
+        if (convertText == 0) {
+            textType = "N";
+        }else
+        if(convertText == -1) {
+            textType = "R1";
+        }else
+        if(convertText == -2) {
+            textType = "R2";
+        }else {
+            textType = Integer.toString(convertText);
+        }
+
+        //apply ANTI_ALIAS for smoothing out the edges of the shapes
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         signal = progress;
@@ -134,10 +148,6 @@ public class GearUI extends View {
         float xC = 400;
         float yC = height / 2;
 
-        //float xValue = scaleX;
-        //arcRed.set(xC - (320 + redV), yC - (320 + redV), xC + (320 + redV), yC + (320 + redV));
-        //arcGreen.set(xC - (320 + greenV), yC - (320 + greenV), xC + (320 + greenV), yC + (320 + greenV));
-
         //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
         arcRed.set(xC - redV, yC - redV, xC + redV, yC + redV);
         arcGreen.set(xC - greenV, yC - greenV, xC + greenV, yC + greenV);
@@ -145,7 +155,7 @@ public class GearUI extends View {
         arcSig.set(xC - 280, yC - 280, xC + 280, yC + 280);
 
         //Colour and draw the clip arcs of each rectangle
-        paint.setColor(Color.parseColor("#DD2C00"));
+        paint.setColor(Color.parseColor("#FF3D00"));
         paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         canvas.drawArc(arcRed, 140, angle_A, true, paint);
 
@@ -166,11 +176,15 @@ public class GearUI extends View {
         }
         canvas.drawArc(arcDial, 0, 360, true, paint);
 
+        float dialW = arcDial.width()/2;
+        float dialH = arcDial.height()/2;
+
         //colour and draw the gear value text
         paint.clearShadowLayer();
         paint.setColor(Color.parseColor("#000000"));
+        paint.setTextAlign(Paint.Align.CENTER);
         paint.setAlpha(208);
         paint.setTextSize(400);
-        canvas.drawText(textType, xC - 125, yC + 150, paint);
+        canvas.drawText(textType, dialW + 80, dialH + 540, paint);
     }
 }
