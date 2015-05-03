@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -17,15 +17,16 @@
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/gearFrag"
-        android:name="com.studmuffins.application.GearModule" />
-
+        android:name="com.studmuffins.application.GearModule"/>
+    <!--
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fuelFrag"
-        android:name="com.studmuffins.application.FuelConsumption" />
+        android:name="com.studmuffins.application.FuelConsumption"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+        -->
 
-</RelativeLayout>
+</FrameLayout>

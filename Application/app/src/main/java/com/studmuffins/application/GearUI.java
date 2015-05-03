@@ -1,0 +1,159 @@
+package com.studmuffins.application;
+
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.util.AttributeSet;
+import android.view.View;
+
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+
+
+/**
+ * Created by hari on 02/05/15.
+ */
+public class GearUI extends View {
+
+    private Paint paint;
+    private RectF arcDial = new RectF();
+    private RectF arcSig = new RectF();
+    private RectF arcRed = new RectF();
+    private RectF arcGreen = new RectF();
+    private int redV;
+    private int greenV;
+    private float xC;
+    private float yC;
+    private float angle_A;
+    private float angle_B;
+    private float signal;
+
+    public GearUI(Context context) {
+        super(context);
+    }
+
+    public GearUI(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public void setClipping(float progress) {
+        paint = new Paint();
+
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.FILL);
+        signal = progress;
+        angle_A = (progress * 260) / 100;
+        angle_B = 0;
+
+        if (progress >= 1) {
+            animateR();
+        }else {
+            redV = 0;
+        }
+
+        if (progress >= 20 && progress <= 30) {
+            angle_B = angle_A - 54;
+            animateG();
+        }else {
+            greenV = 0;
+        }
+
+        invalidate();
+    }
+
+    void animateR() {
+        ValueAnimator up = ValueAnimator.ofInt(0, 360);
+        up.setDuration(300);
+        up.setInterpolator(new DecelerateInterpolator());
+        up.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                redV = (Integer) valueAnimator.getAnimatedValue();
+            }
+        });
+
+        if (redV == 0) {
+            up.start();
+        }
+    }
+
+    void animateG() {
+        ValueAnimator up = ValueAnimator.ofInt(0, 390);
+        up.setDuration(300);
+        up.setInterpolator(new DecelerateInterpolator());
+        up.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                greenV = (Integer) valueAnimator.getAnimatedValue();
+            }
+        });
+
+        ValueAnimator down = ValueAnimator.ofInt(390, 0);
+        down.setDuration(300);
+        down.setInterpolator(new AccelerateInterpolator());
+        down.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                greenV = (Integer) valueAnimator.getAnimatedValue();
+            }
+        });
+
+        if (greenV == 0 && signal < 30) {
+            up.start();
+        }
+        if (greenV > 0 && signal > 30) {
+            down.start();
+        }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //Clip the canvas
+
+        //float width = getWidth();
+        float height = getHeight();
+        xC = 400;
+        yC = height / 2;
+
+        //float xValue = scaleX;
+        //arcRed.set(xC - (320 + redV), yC - (320 + redV), xC + (320 + redV), yC + (320 + redV));
+        arcRed.set(xC - redV, yC - redV, xC + redV, yC + redV);
+        //arcGreen.set(xC - (320 + greenV), yC - (320 + greenV), xC + (320 + greenV), yC + (320 + greenV));
+        arcGreen.set(xC - greenV, yC - greenV, xC + greenV, yC + greenV);
+        arcDial.set(xC - 320, yC - 320, xC + 320, yC + 320);
+        arcSig.set(xC - 280, yC - 280, xC + 280, yC + 280);
+
+        paint.setColor(Color.parseColor("#DD2C00"));
+        paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+        canvas.drawArc(arcRed, 140, angle_A, true, paint);
+
+        paint.setColor(Color.parseColor("#00C853"));
+        paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+        canvas.drawArc(arcGreen, 54 + 140, angle_B, true, paint);
+
+        paint.setColor(Color.parseColor("#F5F5F5"));
+        paint.setShadowLayer(16.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+        if (signal >= 16 && signal <= 30) {
+            paint.setColor(Color.parseColor("#FFAB00"));
+            if (signal >= 18 && signal <= 20) {
+                paint.setColor(Color.parseColor("#FFD600"));
+            } else if (signal >= 20 && signal <= 30) {
+                paint.setColor(Color.parseColor("#00C853"));
+            }
+        }
+        canvas.drawArc(arcDial, 0, 360, true, paint);
+
+        paint.clearShadowLayer();
+        paint.setColor(Color.parseColor("#000000"));
+        paint.setAlpha(208);
+        paint.setTextSize(400);
+        canvas.drawText("5", xC - 125, yC + 150, paint);
+    }
+}
