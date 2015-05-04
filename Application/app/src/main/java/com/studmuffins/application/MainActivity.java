@@ -1,6 +1,7 @@
 package com.studmuffins.application;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.swedspot.automotiveapi.AutomotiveSignal;
@@ -8,6 +9,8 @@ import android.swedspot.automotiveapi.AutomotiveSignalId;
 import android.swedspot.scs.data.SCSFloat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.swedspot.automotiveapi.AutomotiveFactory;
@@ -22,11 +25,14 @@ import com.swedspot.vil.policy.AutomotiveCertificate;
 
 public class MainActivity extends Activity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new AGASystem().execute();
+
     }
 
 
@@ -51,4 +57,9 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void showProgress(View v) {
+        startActivity(new Intent(MainActivity.this, ProgressTracking.class));
+    }
+
 }

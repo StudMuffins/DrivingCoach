@@ -28,4 +28,11 @@
         android:name="com.studmuffins.application.FuelConsumption" />
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/progress_button_text"
+        android:id="@+id/progress_button"
+        android:onClick="showProgress"/>
+
 </FrameLayout>
