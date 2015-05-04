@@ -40,6 +40,7 @@ public class GearUI extends View {
 
     public void setClipping(float progress, float getText) {
         paint = new Paint();
+
         int convertText = (int)getText;
 
         if(convertText == 251) {
@@ -134,6 +135,7 @@ public class GearUI extends View {
         }
         if (greenV == 390 && signal > 30) {
             down.start();
+
         }
     }
 
@@ -170,7 +172,8 @@ public class GearUI extends View {
             paint.setColor(Color.parseColor("#FFAB00"));
             if (signal >= 18 && signal <= 20) {
                 paint.setColor(Color.parseColor("#FFD600"));
-            } else if (signal >= 20 && signal <= 30) {
+            } else
+            if (signal >= 20 && signal <= 30) {
                 paint.setColor(Color.parseColor("#00C853"));
             }
         }
