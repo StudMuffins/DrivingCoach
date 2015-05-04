@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.swedspot.automotiveapi.AutomotiveManager;
-
 public class FuelConsumption extends Fragment {
     private FuelUI ui;
     private TextView text;
