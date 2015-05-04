@@ -29,10 +29,11 @@
         android:layout_alignParentEnd="true" />
         -->
 
-    <fragment
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressFrag"
-        android:name="com.studmuffins.application.ProgressTracking"/>
+        android:text="@string/progress_button_text"
+        android:id="@+id/progress_button"
+        android:onClick="showProgress"/>
 
 </FrameLayout>
