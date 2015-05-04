@@ -57,8 +57,8 @@ public class FuelUI extends View {
         yC = (int) height;
 
         //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
-        rectECO.set(xC - 25, 0, xC, yC);
-        rectFUEL.set(xC - 25, yC - clipHeight, xC, yC);
+        rectECO.set(xC - 40, 0, xC, yC);
+        rectFUEL.set(xC - 40, yC - clipHeight, xC, yC);
         //Colour and draw the clip arcs of each rectangle
         paint.setColor(Color.parseColor("#64DD17"));
         paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));

@@ -1,6 +1,6 @@
 package com.studmuffins.application;
 
-import android.animation.ValueAnimator;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,20 +9,23 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import android.animation.ValueAnimator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-
 
 /**
  * Created by hari on 02/05/15.
  */
+
 public class GearUI extends View {
 
     private Paint paint;
     private RectF arcDial = new RectF();
     private RectF arcSig = new RectF();
+    private RectF arcOrange = new RectF();
     private RectF arcRed = new RectF();
     private RectF arcGreen = new RectF();
+    private int orangeV;
     private int redV;
     private int greenV;
     private float angle_A;
@@ -39,9 +42,13 @@ public class GearUI extends View {
     }
 
     public void setClipping(float progress, float getText) {
+        //apply ANTI_ALIAS for smoothing out the edges of the shapes
         paint = new Paint();
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.FILL);
 
         int convertText = (int)getText;
+        signal = progress;
 
         if(convertText == 251) {
             textType = "P";
@@ -54,38 +61,46 @@ public class GearUI extends View {
         }else
         if(convertText == -2) {
             textType = "R2";
-        }else {
+        } else {
             textType = Integer.toString(convertText);
         }
-
-        //apply ANTI_ALIAS for smoothing out the edges of the shapes
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.FILL);
-        signal = progress;
 
         //calculate the angle of percentage
         angle_A = (progress * 260) / 100;
         angle_B = 0;
 
-        //run animation for the red arc
+        //run animation for the orange arc
         if (progress >= 1) {
-            animateR();
-        }else {
-            redV = 0;
+            animateO();
+        } else {
+            orangeV = 0;
         }
 
         //run animation for the green arc
-        if (progress >= 20) {
-            angle_B = angle_A - 54;
+        if (progress >= 5 && progress < 50) {
             animateG();
-        }else {
+            if (progress >= 20) {
+                angle_B = angle_A - 54;
+            }
+        } else {
             greenV = 0;
+        }
+
+        //run animation for the red arc
+        if (progress >= 50) {
+            animateR();
+            if (progress >= 85) {
+                textType = "!!!";
+                angle_B = angle_A - 221;
+            }
+        } else {
+            redV = 0;
         }
 
         invalidate();
     }
 
-    void animateR() {
+    void animateO() {
         //count from start value to end values with a decelerating speed of a set duration
         ValueAnimator up = ValueAnimator.ofInt(0, 360);
         up.setDuration(300);
@@ -94,12 +109,12 @@ public class GearUI extends View {
 
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                redV = (Integer) valueAnimator.getAnimatedValue();
+                orangeV = (Integer) valueAnimator.getAnimatedValue();
             }
         });
 
         //start animation at a certain percent
-        if (redV == 0) {
+        if (orangeV == 0) {
             up.start();
         }
     }
@@ -130,13 +145,48 @@ public class GearUI extends View {
         });
 
         //start animation at a certain percent
-        if (greenV == 0 && signal < 30) {
+        if (greenV == 0 && signal >= 20 && signal <= 30) {
             up.start();
         }
-        if (greenV == 390 && signal > 30) {
+        if (greenV == 390 && signal > 30 || greenV == 390 && signal < 20) {
             down.start();
 
         }
+    }
+
+    void animateR() {
+        //count from start value to end values with a decelerating speed of a set duration
+        ValueAnimator up = ValueAnimator.ofInt(0, 390);
+        up.setDuration(300);
+        up.setInterpolator(new DecelerateInterpolator());
+        up.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                redV = (Integer) valueAnimator.getAnimatedValue();
+            }
+        });
+
+        ValueAnimator down = ValueAnimator.ofInt(390, 0);
+        down.setDuration(300);
+        down.setInterpolator(new AccelerateInterpolator());
+        down.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                redV = (Integer) valueAnimator.getAnimatedValue();
+            }
+        });
+
+        //start animation at a certain percent
+        if (redV == 0 && signal >= 85) {
+            up.start();
+        }
+        if (redV == 390 && signal <= 85) {
+            down.start();
+
+        }
+
     }
 
     @Override
@@ -151,31 +201,53 @@ public class GearUI extends View {
         float yC = height / 2;
 
         //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
+        arcOrange.set(xC - orangeV, yC - orangeV, xC + orangeV, yC + orangeV);
         arcRed.set(xC - redV, yC - redV, xC + redV, yC + redV);
         arcGreen.set(xC - greenV, yC - greenV, xC + greenV, yC + greenV);
         arcDial.set(xC - 320, yC - 320, xC + 320, yC + 320);
         arcSig.set(xC - 280, yC - 280, xC + 280, yC + 280);
 
         //Colour and draw the clip arcs of each rectangle
-        paint.setColor(Color.parseColor("#FF3D00"));
+        paint.setColor(Color.parseColor("#FF5722"));
         paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        canvas.drawArc(arcRed, 140, angle_A, true, paint);
+        canvas.drawArc(arcOrange, 140, angle_A, true, paint);
 
-        paint.setColor(Color.parseColor("#00C853"));
-        paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        canvas.drawArc(arcGreen, 54 + 140, angle_B, true, paint);
+        if (signal >= 5 && signal < 50) {
+            paint.clearShadowLayer();
+            paint.setColor(Color.parseColor("#000000"));
+            paint.setAlpha(100);
+            canvas.drawArc(arcGreen, 54 + 140, 24, true, paint);
+            paint.setAlpha(255);
+            paint.setColor(Color.parseColor("#00C853"));
+            paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+            canvas.drawArc(arcGreen, 54 + 140, angle_B, true, paint);
+        }
+
+        if (signal >= 50) {
+            paint.clearShadowLayer();
+            paint.setColor(Color.parseColor("#000000"));
+            paint.setAlpha(100);
+            canvas.drawArc(arcRed, 221 + 140, 39, true, paint);
+            paint.setAlpha(255);
+            paint.setColor(Color.parseColor("#FF1744"));
+            paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+            canvas.drawArc(arcRed, 221 + 140, angle_B, true, paint);
+        }
 
         //colour the count down signals
         paint.setColor(Color.parseColor("#F5F5F5"));
         paint.setShadowLayer(16.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         if (signal >= 16 && signal <= 30) {
-            paint.setColor(Color.parseColor("#FFAB00"));
+            paint.setColor(Color.parseColor("#80D8FF"));
             if (signal >= 18 && signal <= 20) {
-                paint.setColor(Color.parseColor("#FFD600"));
+                paint.setColor(Color.parseColor("#00B0FF"));
             } else
             if (signal >= 20 && signal <= 30) {
                 paint.setColor(Color.parseColor("#00C853"));
             }
+        }
+        if (signal >= 85) {
+            paint.setColor(Color.parseColor("#FF1744"));
         }
         canvas.drawArc(arcDial, 0, 360, true, paint);
 
