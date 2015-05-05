@@ -28,11 +28,18 @@
         android:name="com.studmuffins.application.FuelConsumption" />
 
 
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:id="@+id/brakefrag"
+        android:name="com.studmuffins.application.BrakeModule" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/progress_button_text"
         android:id="@+id/progress_button"
-        android:onClick="showProgress"/>
+        android:onClick="showProgress"
+        android:layout_gravity="center_horizontal|top" />
 
 </FrameLayout>
