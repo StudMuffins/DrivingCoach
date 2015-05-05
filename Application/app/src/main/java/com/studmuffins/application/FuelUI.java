@@ -60,7 +60,7 @@ public class FuelUI extends View {
         rectECO.set(xC - 40, 0, xC, yC);
         rectFUEL.set(xC - 40, yC - clipHeight, xC, yC);
         //Colour and draw the clip arcs of each rectangle
-        paint.setColor(Color.parseColor("#64DD17"));
+        paint.setColor(Color.parseColor("#00C853"));
         paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         canvas.drawRect(rectECO, paint);
 
