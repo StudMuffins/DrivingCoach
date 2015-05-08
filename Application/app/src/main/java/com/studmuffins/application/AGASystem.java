@@ -71,7 +71,8 @@ class AGASystem extends AsyncTask<Object, Object, Object> {
         manager.register(
                 AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY,
                 AutomotiveSignalId.FMS_ENGINE_SPEED,
-                AutomotiveSignalId.FMS_CURRENT_GEAR);
+                AutomotiveSignalId.FMS_CURRENT_GEAR,
+                AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);
         manager.setListener(aml);
         return null;
     }

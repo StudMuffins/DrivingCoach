@@ -27,7 +27,6 @@
         android:id="@+id/fuelFrag"
         android:name="com.studmuffins.application.FuelConsumption" />
 
-
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="43dp"

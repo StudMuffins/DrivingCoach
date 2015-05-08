@@ -34,12 +34,10 @@ public class BrakeModule extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.brake_fragment, container, false);
         text = (TextView) view.findViewById(R.id.Value);
-        text.setText("5");
 
         autoListener();
         return view;
     }
-
 
     public void autoListener(){
 
@@ -52,16 +50,14 @@ public class BrakeModule extends Fragment {
 
                     if (print != null) {
                         velocity = print;  // velocity = print/(float)3.6;
+                        //System.out.println(velocity);
                     }
-                    //System.out.println("PING 1");
 
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-
 
                     while (velocity >= 2.5) {
 
@@ -101,17 +97,16 @@ public class BrakeModule extends Fragment {
 
                             elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
 
-                            calculateEngineBrake();
+                            //calculateEngineBrake();
                         }
 
-                        mHandler.post(new Runnable() {
-                            public void run() {
 
-                                text.setText(String.valueOf(jerk));
-                            }
-                        });
                     }
-
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            text.setText(String.valueOf(jerk));
+                        }
+                    });
 
                 }
 
@@ -119,10 +114,6 @@ public class BrakeModule extends Fragment {
         }).start();
 
    }
-
-
-
-
 
     private void calculateBrake(){
         deceleration = (velocity1 - velocity2) / elapsedTime;
@@ -150,4 +141,3 @@ public class BrakeModule extends Fragment {
         }
     }
 }
-

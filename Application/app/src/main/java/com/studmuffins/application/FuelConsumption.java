@@ -22,6 +22,7 @@ public class FuelConsumption extends Fragment {
     private AGASystem aga = new AGASystem();
     private Float signal;
     private float sendSignal;
+    private float textSignal;
     private float progress;
 
     @Override
@@ -45,11 +46,12 @@ public class FuelConsumption extends Fragment {
                     if (signal != null) {
                         sendSignal = signal;
                     }
-                    float convertSignal = sendSignal * 100;
-                    if (convertSignal >= 10) {
-                        convertSignal = 10;
-                        progress = (convertSignal/10) * 100;
-                    }
+                    //float convertSignal = sendSignal * 100;
+                   // if (convertSignal >= 10) {
+                        //convertSignal = 10;
+
+                    //}
+                    progress = (sendSignal/125) * 100;
                     //Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
