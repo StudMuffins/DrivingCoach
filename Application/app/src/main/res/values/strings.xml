@@ -4,4 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="progress_button_text">See Progress Scores</string>
+    <string-array name="nav_drawer_items">
+        <item>Progress Tracking</item>
+    </string-array>
+    <array name="nav_drawer_icons">
+
+    </array>
 </resources>
