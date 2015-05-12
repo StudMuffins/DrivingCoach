@@ -1,22 +1,16 @@
 package com.studmuffins.application;
-import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * Created by Jono and Zoe on 1/05/2015.
  */
-public class ProgressTracking extends Activity {
+public class ProgressTracking extends BaseActivity {
+    private String[] navMenuTitles;
     private HashMap <String, String> scoreMap = new HashMap<String, String>();
 
     private String gear = "gear";
@@ -32,6 +26,8 @@ public class ProgressTracking extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.progress_tracking);
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        set(navMenuTitles);
 
         // Set String values
         setFuelScore();
