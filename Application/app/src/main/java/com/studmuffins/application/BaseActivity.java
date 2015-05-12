@@ -117,6 +117,11 @@ public class BaseActivity extends ActionBarActivity {
     private void displayView(int position) {
         switch(position) {
             case 0:
+                Intent intentCoaching = new Intent(this, MainActivity.class);
+                startActivity(intentCoaching);
+                finish();
+                break;
+            case 2:
                 Intent intentProgress = new Intent(this, ProgressTracking.class);
                 startActivity(intentProgress);
                 finish(); // finishes the current activity

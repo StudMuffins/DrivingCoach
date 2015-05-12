@@ -101,10 +101,10 @@
         android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#1a1c25"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="2px"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:background="#2E7D32" />
 
 
 </android.support.v4.widget.DrawerLayout>
