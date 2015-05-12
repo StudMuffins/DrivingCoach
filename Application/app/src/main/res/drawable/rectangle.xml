@@ -5,7 +5,7 @@
             android:shape="rectangle"
             android:useLevel="true">
             <solid
-                android:color="#76FF03"/>
+                android:color="#F5F5F5"/>
         </shape>
     </item>
 </layer-list>

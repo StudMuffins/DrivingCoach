@@ -1,38 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     android:background="#D7CCC8"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:textSize="40dp"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/testText" />
+
 
     <fragment
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/gearFrag"
         android:name="com.studmuffins.application.GearModule"/>
 
 
     <fragment
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:id="@+id/fuelFrag"
         android:name="com.studmuffins.application.FuelConsumption" />
-
+<!--
+<TextView
+        android:textSize="40dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/testText" />
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:id="@+id/brakefrag"
+        android:name="com.studmuffins.application.BrakeModule" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/progress_button_text"
         android:id="@+id/progress_button"
-        android:onClick="showProgress"/>
-
-</FrameLayout>
+        android:onClick="showProgress"
+        android:layout_gravity="center_horizontal|top" />
+-->
+</LinearLayout>

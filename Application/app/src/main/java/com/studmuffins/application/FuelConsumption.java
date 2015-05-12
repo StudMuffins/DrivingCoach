@@ -22,13 +22,16 @@ public class FuelConsumption extends Fragment {
     private AGASystem aga = new AGASystem();
     private Float signal;
     private float sendSignal;
-    private float progress;
+    private float textSignal;
+    private int progress;
+    private ProgressBar bar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fuel_fragment, container, false);
         ui = (FuelUI) view.findViewById(R.id.UI);
-        ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        bar = (ProgressBar) view.findViewById(R.id.progressBar);
+        //ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         text = (TextView) view.findViewById(R.id.Value);
         dosomething();
         return view;
@@ -45,15 +48,17 @@ public class FuelConsumption extends Fragment {
                     if (signal != null) {
                         sendSignal = signal;
                     }
-                    float convertSignal = sendSignal * 100;
-                    if (convertSignal >= 10) {
-                        convertSignal = 10;
-                        progress = (convertSignal/10) * 100;
-                    }
+                    //float convertSignal = sendSignal * 100;
+                   // if (convertSignal >= 10) {
+                        //convertSignal = 10;
+
+                    //}
+                    progress = (int) (sendSignal/125) * 100;
                     //Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
-                            ui.setClipping(progress);
+                            bar.setProgress(progress);
+                            //ui.setClipping(progress);
                             text.setText(""+progress+"%");
                         }
                     });
