@@ -8,9 +8,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="48"
+        android:progress="45"
+        android:progressDrawable="@drawable/circular" />
+<!--
     <com.studmuffins.application.FuelUI
         android:id="@+id/UI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
+-->
+    <View
+        android:id="@+id/barHolder"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/rectangle"/>
 </LinearLayout>

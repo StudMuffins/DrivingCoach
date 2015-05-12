@@ -1,6 +1,7 @@
 package com.studmuffins.application;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,9 +10,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import android.animation.ValueAnimator;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
@@ -25,8 +28,8 @@ public class GearUI extends View {
     private RectF arcDial;
     private RectF arcOrange;
     private RectF arcSignal;
-    private Bitmap arrow_1;
-    private Bitmap arrow_2;
+    private float xC;
+    //private float yC;
     private int holderV;
     private int redV;
     private int greenV;
@@ -53,8 +56,16 @@ public class GearUI extends View {
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(400);
+        paint.setTextSize(500);
 
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        float height = displayMetrics.heightPixels/2;
+        xC = displayMetrics.widthPixels/2;
+
+        //xC = getScreenGridUnit() / 2;
+        //yC = (getScreenGridUnit() / 2) - 290;
         arcDial = new RectF();
         arcOrange = new RectF();
         arcSignal = new RectF();
@@ -102,7 +113,7 @@ public class GearUI extends View {
         }
 
         //run animation for the red arcSignal
-        if (progress >= 75) {
+        if (progress >= 70) {
             redV = holderV;
             animateArc();
             if (progress >= 85) {
@@ -119,7 +130,10 @@ public class GearUI extends View {
 
     void animateArc() {
         //count from start value to end values with a decelerating speed of a set duration
-        ValueAnimator up = ValueAnimator.ofInt(0, 400);
+        int startValue = 0;
+        int endValue = 60;
+
+        ValueAnimator up = ValueAnimator.ofInt(startValue, endValue);
         up.setDuration(300);
         up.setInterpolator(new DecelerateInterpolator());
         up.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -131,7 +145,7 @@ public class GearUI extends View {
         });
 
         //count from start value to end values with a accelerating speed of a set duration
-        ValueAnimator down = ValueAnimator.ofInt(400, 0);
+        ValueAnimator down = ValueAnimator.ofInt(endValue, startValue);
         down.setDuration(300);
         down.setInterpolator(new AccelerateInterpolator());
         down.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -143,10 +157,10 @@ public class GearUI extends View {
         });
 
         //start animation at a certain percent
-        if (greenV == 0 && signal >= 20 && signal <= 30 || redV == 0 && signal >= 85) {
+        if (greenV == startValue && signal >= 20 && signal <= 30 || redV == startValue && signal >= 85) {
             up.start();
         }
-        if (greenV == 400 && signal > 30 || greenV == 400 && signal < 20 || redV == 400 && signal <= 85) {
+        if (greenV == endValue && signal > 30 || greenV == endValue && signal < 20 || redV == endValue && signal <= 85) {
             down.start();
         }
     }
@@ -157,15 +171,22 @@ public class GearUI extends View {
         //Clip the canvas
 
         //get the width and height of the canvas
+        //System.out.println("xC= " + xC);
+        //System.out.println("yC= " + yC);
         float width = getWidth();
-        float height = getHeight();
-        float xC = width / 2;
-        float yC = height / 2;
+        float yC = getHeight()/2 - 220; // -290
+        float dL = xC - xC + 90;
+        float dT = yC - xC + 90;
+        float dR = xC + xC - 90;
+        float dD = yC + xC - 90;
+
+        //System.out.println("width= " + width);
+        //System.out.println("height= " + yC);
 
         //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
-        arcOrange.set(xC - 360, yC - 360, xC + 360, yC + 360);
-        arcSignal.set(xC - holderV, yC - holderV, xC + holderV, yC + holderV);
-        arcDial.set(xC - 320, yC - 320, xC + 320, yC + 320);
+        arcOrange.set(dL - 20, dT - 20, dR + 20, dD + 20);
+        arcSignal.set(dL - holderV, dT - holderV, dR + holderV, dD + holderV);
+        arcDial.set(dL, dT, dR, dD);
 
         //Colour and draw the clip arcs of each rectangle
         if (signal > 0) {
@@ -186,7 +207,7 @@ public class GearUI extends View {
             canvas.drawArc(arcSignal, 54 + 140, angle_B, true, paint);
         }
 
-        if (signal >= 85) {
+        if (signal >= 70) {
             paint.clearShadowLayer();
             paint.setColor(Color.parseColor("#000000"));
             paint.setAlpha(100);
@@ -198,6 +219,7 @@ public class GearUI extends View {
         }
 
         //colour the count down signals
+
         paint.setColor(Color.parseColor("#F5F5F5"));
         paint.setShadowLayer(16.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         if (signal >= 16 && signal <= 30) {
@@ -215,13 +237,10 @@ public class GearUI extends View {
         canvas.drawArc(arcDial, 0, 360, true, paint);
         //canvas.drawBitmap(arrow_1, xC, yC, null);
 
-        float dialW = arcDial.width()/2;
-        float dialH = arcDial.height()/2;
-
         //colour and draw the gear value text
         paint.clearShadowLayer();
         paint.setColor(Color.parseColor("#000000"));
         paint.setAlpha(208);
-        canvas.drawText(textType, dialW + 165, dialH + 540, paint);
+        canvas.drawText(textType, xC, yC + 180, paint);
     }
 }
