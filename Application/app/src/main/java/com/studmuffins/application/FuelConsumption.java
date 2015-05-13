@@ -32,7 +32,7 @@ public class FuelConsumption extends Fragment {
         ui = (FuelUI) view.findViewById(R.id.UI);
         bar = (ProgressBar) view.findViewById(R.id.progressBar);
         //ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        text = (TextView) view.findViewById(R.id.Value);
+        //text = (TextView) view.findViewById(R.id.Value);
         dosomething();
         return view;
     }
@@ -59,7 +59,7 @@ public class FuelConsumption extends Fragment {
                         public void run() {
                             bar.setProgress(progress);
                             //ui.setClipping(progress);
-                            text.setText(""+progress+"%");
+                            //text.setText(""+progress+"%");
                         }
                     });
                     try {

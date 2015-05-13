@@ -19,9 +19,19 @@ public class BrakeModule extends Fragment {
 
     public Float brake;
     public Float print;
+    public Float print1;
+    public Float print2;
+    public Float print3;
+    public Float print4;
     private float velocity;
     private float velocity1;       // m/s
     private float velocity2;       // m/s
+    private float velocity3;       // m/s
+    private float tempVelo1;
+    private float tempVelo2;
+    private boolean contstant;
+    private boolean decelDone;
+    private float tempVelocity;    // m/s
     private long startTime;         // seconds^-9
     private float elapsedTime;       // seconds
     private float deceleration;    // m/s^2
@@ -29,91 +39,106 @@ public class BrakeModule extends Fragment {
     private AGASystem aga = new AGASystem();
     private TextView text;
     private Handler mHandler = new Handler();
+    private float initVelocity;
+    private float currentVelocity;
+    private float finalVelocity;
+    private float calc;
+    private float storeFinal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.brake_fragment, container, false);
-        text = (TextView) view.findViewById(R.id.Value);
+        //text = (TextView) view.findViewById(R.id.Value);
+        //text.setText("5");
 
         autoListener();
         return view;
     }
+
 
     public void autoListener(){
 
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
+                    //brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
+
 
                     print = aga.map.get(AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);
-                    brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
 
                     if (print != null) {
-                        velocity = print;  // velocity = print/(float)3.6;
-                        //System.out.println(velocity);
+                        velocity = (float) (print / 3.6);
+                        //System.out.println("PING!-1");
                     }
 
+                    currentVelocity = velocity;
+
+                    if (currentVelocity > finalVelocity) {
+                        initVelocity = currentVelocity;
+                        System.out.println("ACCELERATING!");
+                    }else if (currentVelocity < initVelocity) {
+                        elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
+                        finalVelocity = currentVelocity;
+                        System.out.println("DECELERATING!");
+                    }
+
+
+
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
-                    while (velocity >= 2.5) {
+
+                    /*
+                    if (velocity1 < velocity) {
+
+                        //startTime = System.nanoTime();
+
+                        float hari = 0;
 
                         do {
-                            velocity1 = velocity;
-                            try {
-                                Thread.sleep(200);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+
+                            print2 = aga.map.get(AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);
+                            if (print2 != null)
+                                velocity2 = (float) (print1 / 3.6);
+
+                            if(hari == velocity2){
+                                decelDone = true;
                             }
-                        } while (velocity1 <= velocity);
 
-                        startTime = System.nanoTime();
+                            for(int i = 0; i == 10; i++){
+                                System.out.println(i);
+                            }
 
-                        if (brake == 1) {
-
-                            do {
-                                velocity2 = velocity;
-                                try {
-                                    Thread.sleep(200);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            } while (velocity2 >= velocity);
-
-                            elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
-
-                            calculateBrake();
-                        }
-
-                        if (brake == 0) {
-
-                            do {
-                                velocity2 = velocity;
-                                sleep();
-                            } while (velocity2 >= velocity);
-
-                            elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
-
-                            //calculateEngineBrake();
-                        }
-
+                            hari = velocity2;
+                        } while (velocity2 != 0 && decelDone != true);
 
                     }
+
+                    elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
+
+                    System.out.println("Velocity  = " + velocity);
+                    System.out.println("Velocity1 = " + velocity1);
+                    System.out.println("Velocity2 = " + velocity2);
+
+
+                    //System.out.println("Time taken = " + elapsedTime);
+
+                    */
                     mHandler.post(new Runnable() {
                         public void run() {
-                            text.setText(String.valueOf(jerk));
+
+                            //text.setText(String.valueOf(jerk));
                         }
                     });
-
                 }
 
             }
         }).start();
 
-   }
+    }
 
     private void calculateBrake(){
         deceleration = (velocity1 - velocity2) / elapsedTime;
@@ -135,7 +160,7 @@ public class BrakeModule extends Fragment {
 
     private void sleep(){
         try {
-            Thread.sleep(200);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

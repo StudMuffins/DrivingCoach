@@ -3,19 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="48dp">
 
-
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:text="no text"
-        android:textColor="#fff"
-        android:textSize="20dp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:alpha="0.87"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:paddingRight="40dp"
-        android:paddingLeft="10dp"
-        android:background="#388E3C"/>
-
+        android:paddingLeft="72dp" />
 
 </RelativeLayout>
