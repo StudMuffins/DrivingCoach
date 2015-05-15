@@ -18,8 +18,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
         set(navMenuTitles);
-        /*ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#66BB6A")));*/
         new AGASystem().execute();
 
         ttsManager = new TTSManager();
