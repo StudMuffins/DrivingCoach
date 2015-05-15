@@ -10,6 +10,7 @@ import android.view.View;
 public class MainActivity extends BaseActivity {
 
     private String[] navMenuTitles;
+    TTSManager ttsManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,9 @@ public class MainActivity extends BaseActivity {
         /*ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#66BB6A")));*/
         new AGASystem().execute();
+
+        ttsManager = new TTSManager();
+        ttsManager.init(this);
 
     }
 
@@ -50,4 +54,10 @@ public class MainActivity extends BaseActivity {
         startActivity(new Intent(MainActivity.this, ProgressTracking.class));
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ttsManager.shutDown();
+    }
 }
