@@ -15,13 +15,13 @@ import android.swedspot.automotiveapi.AutomotiveSignalId;
 public class GearModule extends Fragment {
 
     private GearUI ui;
-    private Float text;
+    private Float gear;
     private Handler mHandler = new Handler();
     private Float signal;
     private float sendSignal;
-    private float sendText;
+    private float sendGear;
     private float progress;
-    private float oldText = 1;
+    private float prevGear;
     private AGASystem aga = new AGASystem();
 
     @Override
@@ -29,7 +29,7 @@ public class GearModule extends Fragment {
         View view = inflater.inflate(R.layout.gear_fragment, container, false);
         ui = (GearUI) view.findViewById(R.id.UI);
         ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
+        prevGear = 0;
         autoListener();
         return view;
     }
@@ -40,22 +40,21 @@ public class GearModule extends Fragment {
             public void run() {
                 while (true) {
                     signal = aga.map.get(AutomotiveSignalId.FMS_ENGINE_SPEED);
-                    text = aga.map.get(AutomotiveSignalId.FMS_CURRENT_GEAR);
+                    gear = aga.map.get(AutomotiveSignalId.FMS_CURRENT_GEAR);
 
                     if(signal != null) {
                         sendSignal = signal;
                     }
-                    if(text != null) {
-                        sendText = text;
+                    if(gear != null) {
+                        sendGear = gear;
                         //System.out.println("Gear Level: " + text);
                     }
 
                     progress = (sendSignal / 10000) * 100;
-                    gearChange();
 
                     mHandler.post(new Runnable() {
                         public void run() {
-                            ui.setClipping(progress, sendText);
+                            ui.setClipping(progress, sendGear);
                         }
                     });
 
@@ -69,18 +68,20 @@ public class GearModule extends Fragment {
         }).start();
     }
 
-    public void gearChange() {
-        if(oldText < sendText) {
+    public String gearChange() {
+        String text = null;
+        if(prevGear == sendGear) {
             if (progress >= 20 && progress < 25) {
+                text = "Shift up";
 
             } else if (progress >= 25 && progress <= 30) {
-
-            }else if (progress < 20) {
-
-            }else if (progress > 30) {
-
+                text = "Shift up" + "Skip one Gear";
+            } else if (progress > 85) {
+                text = "Warning";
             }
-            oldText = sendText;
+        } else {
+            prevGear = sendGear;
         }
+        return text;
     }
 }

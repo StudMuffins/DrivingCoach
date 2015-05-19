@@ -75,11 +75,11 @@ public class BrakeModule extends Fragment {
 
                     if (currentVelocity > finalVelocity) {
                         initVelocity = currentVelocity;
-                        System.out.println("ACCELERATING!");
+                        //System.out.println("ACCELERATING!");
                     }else if (currentVelocity < initVelocity) {
                         elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
                         finalVelocity = currentVelocity;
-                        System.out.println("DECELERATING!");
+                        //System.out.println("DECELERATING!");
                     }
 
 

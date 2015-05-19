@@ -1,10 +1,7 @@
 package com.studmuffins.application;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -39,11 +36,6 @@ public class GearUI extends View {
     private String textType;
     private Context mContext;
 
-    public GearUI(Context context) {
-        super(context);
-        initVector(context);
-    }
-
     public GearUI(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
@@ -73,20 +65,20 @@ public class GearUI extends View {
         //arrow_2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow_2);
     }
 
-    public void setClipping(float progress, float getText) {
+    public void setClipping(float progress, double getText) {
         //arrow_1 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.arrow);
         int convertText = (int)getText;
         signal = progress;
 
         if(convertText == 251) {
             textType = "P";
-        }else
+        } else
         if (convertText == 0) {
             textType = "N";
-        }else
+        } else
         if(convertText == -1) {
             textType = "R1";
-        }else
+        } else
         if(convertText == -2) {
             textType = "R2";
         } else {
@@ -128,7 +120,7 @@ public class GearUI extends View {
         postInvalidate();
     }
 
-    void animateArc() {
+    private void animateArc() {
         //count from start value to end values with a decelerating speed of a set duration
         int startValue = 0;
         int endValue = 60;

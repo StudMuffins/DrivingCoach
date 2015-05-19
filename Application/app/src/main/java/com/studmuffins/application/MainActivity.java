@@ -5,22 +5,54 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 public class MainActivity extends BaseActivity {
 
     private String[] navMenuTitles;
+    private GearModule gearMod;
+    private String text;
+    private String cloneText;
+    TTSManager ttsManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-        set(navMenuTitles);
-        /*ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#66BB6A")));*/
-        new AGASystem().execute();
+        gearMod = (GearModule) getFragmentManager().findFragmentById(R.id.gearFrag);
 
+        set(navMenuTitles);
+        new AGASystem().execute();
+        ttsManager = new TTSManager();
+        ttsManager.init(this);
+
+        new Thread(new Runnable() {
+            public void run() {
+                cloneText = null;
+                while (true) {
+
+                    checkInputs();
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+
+    public void checkInputs() {
+        text = gearMod.gearChange();
+        if (text != cloneText) {
+            ttsManager.addQueue(text);
+            cloneText = text;
+        }
     }
 
 
@@ -48,6 +80,13 @@ public class MainActivity extends BaseActivity {
 
     public void showProgress(View v) {
         startActivity(new Intent(MainActivity.this, ProgressTracking.class));
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ttsManager.shutDown();
     }
 
 }

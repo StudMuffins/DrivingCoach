@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="actionbar_text">#000000</color>
+    <color name="actionbar_background">#4CAF50</color>
+    <color name="navdrawer_background">#FAFAFA</color>
+    <color name="navitem_background">#FAFAFA</color>
+</resources>

@@ -20,7 +20,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:dividerHeight="2px"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        android:background="#2E7D32"/>
+        android:background="@color/navdrawer_background"
+        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"/>
 </android.support.v4.widget.DrawerLayout>
