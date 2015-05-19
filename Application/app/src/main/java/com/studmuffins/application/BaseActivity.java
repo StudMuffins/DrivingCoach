@@ -121,6 +121,11 @@ public class BaseActivity extends ActionBarActivity {
                 startActivity(intentCoaching);
                 finish();
                 break;
+            case 1:
+                Intent intentCarSwap = new Intent(this, AddNewCar.class);
+                startActivity(intentCarSwap);
+                finish();
+                break;
             case 2:
                 Intent intentProgress = new Intent(this, ProgressTracking.class);
                 startActivity(intentProgress);
