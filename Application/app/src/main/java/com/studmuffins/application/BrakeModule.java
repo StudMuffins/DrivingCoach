@@ -18,22 +18,13 @@ import android.widget.TextView;
 public class BrakeModule extends Fragment {
 
     public Float brake;
+    private float brakeValue;
     public Float print;
-    public Float print1;
-    public Float print2;
-    public Float print3;
-    public Float print4;
     private float velocity;
-    private float velocity1;       // m/s
-    private float velocity2;       // m/s
-    private float velocity3;       // m/s
-    private float tempVelo1;
-    private float tempVelo2;
-    private boolean contstant;
-    private boolean decelDone;
-    private float tempVelocity;    // m/s
-    private long startTime;         // seconds^-9
-    private float elapsedTime;       // seconds
+    private long startTime;         // nanoseconds
+    private long stopTime;          // nanoseconds
+    private float elapsedTime;       // nanoseconds
+    private float seconds;          //seconds
     private float deceleration;    // m/s^2
     private float jerk;              // m/s^3
     private AGASystem aga = new AGASystem();
@@ -42,95 +33,64 @@ public class BrakeModule extends Fragment {
     private float initVelocity;
     private float currentVelocity;
     private float finalVelocity;
-    private float calc;
-    private float storeFinal;
+    private int res;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.brake_fragment, container, false);
-        //text = (TextView) view.findViewById(R.id.Value);
-        //text.setText("5");
+        text = (TextView) view.findViewById(R.id.Value);
+        text.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        text.setText(String.valueOf(jerk));
+        initVar();
 
         autoListener();
         return view;
     }
 
+    private void initVar() {
+        finalVelocity = 0;
+        deceleration = 0;
+    }
 
-    public void autoListener(){
+
+    public void autoListener() {
 
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
-                    //brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
 
 
                     print = aga.map.get(AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);
 
                     if (print != null) {
                         velocity = (float) (print / 3.6);
-                        //System.out.println("PING!-1");
                     }
 
                     currentVelocity = velocity;
 
-                    if (currentVelocity > finalVelocity) {
-                        initVelocity = currentVelocity;
-                        //System.out.println("ACCELERATING!");
-                    }else if (currentVelocity < initVelocity) {
-                        elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
+                    if (currentVelocity > finalVelocity || currentVelocity < 1) {
+
+                        check();
+
+                    } else if (currentVelocity < initVelocity) {
+                        if (startTime == 0) {
+                            startTime = System.nanoTime();
+                        }
                         finalVelocity = currentVelocity;
-                        //System.out.println("DECELERATING!");
+                        System.out.println("DECELERATING!");
                     }
 
-
-
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
 
-                    /*
-                    if (velocity1 < velocity) {
-
-                        //startTime = System.nanoTime();
-
-                        float hari = 0;
-
-                        do {
-
-                            print2 = aga.map.get(AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);
-                            if (print2 != null)
-                                velocity2 = (float) (print1 / 3.6);
-
-                            if(hari == velocity2){
-                                decelDone = true;
-                            }
-
-                            for(int i = 0; i == 10; i++){
-                                System.out.println(i);
-                            }
-
-                            hari = velocity2;
-                        } while (velocity2 != 0 && decelDone != true);
-
-                    }
-
-                    elapsedTime = (long) Math.pow((System.nanoTime() - startTime), 9);
-
-                    System.out.println("Velocity  = " + velocity);
-                    System.out.println("Velocity1 = " + velocity1);
-                    System.out.println("Velocity2 = " + velocity2);
-
-
-                    //System.out.println("Time taken = " + elapsedTime);
-
-                    */
                     mHandler.post(new Runnable() {
                         public void run() {
 
-                            //text.setText(String.valueOf(jerk));
+                            text.setText(String.valueOf(jerk));
                         }
                     });
                 }
@@ -140,29 +100,70 @@ public class BrakeModule extends Fragment {
 
     }
 
-    private void calculateBrake(){
-        deceleration = (velocity1 - velocity2) / elapsedTime;
+    private void check() {
+        if (finalVelocity < initVelocity && initVelocity > 0 && startTime > 0) {
 
-        jerk = (float) ((deceleration/elapsedTime) * 0.5);
+            stopTime = System.nanoTime();
+            elapsedTime = stopTime - startTime;
+            seconds = elapsedTime / 1000000000;
+            deceleration = (initVelocity - finalVelocity) / seconds;
 
-        System.out.print("Pedal brake = " + jerk);
+            System.out.println("Elapsed time: " + seconds + "sec");
+
+            System.out.println("Initial velocity: " + initVelocity);
+            System.out.println("Final velocity: " + finalVelocity);
+            System.out.println("Deceleration value: " + deceleration);
+
+            brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
+            if (brake != null) {
+                brakeValue = brake;
+            }
+
+            if (brakeValue == 0) {
+                calculateBrake();
+            } else {
+                calculateEngineBrake();
+            }
+
+
+        } else if (deceleration == 0) {
+            res = 1;
+            reset(res);
+        }
     }
 
-    private void calculateEngineBrake(){
-        deceleration = (velocity1 - velocity2) / elapsedTime;
 
-        jerk = (long) (deceleration/elapsedTime);
+    private void calculateBrake() {
 
-        System.out.print("Engine brake = " + jerk);
+        jerk = (float) ((deceleration / seconds) * 0.5);
+        System.out.println("Pedal brake = " + jerk);
+        System.out.println("_____________________________");
+        res = 0;
+        reset(res);
     }
 
+    private void calculateEngineBrake() {
 
+        jerk = (deceleration / seconds);
+        System.out.println("Engine brake = " + jerk);
+        System.out.println("_____________________________");
+        res = 0;
+        reset(res);
+    }
 
-    private void sleep(){
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void reset(int res) {
+        int cases = res;
+
+        finalVelocity = currentVelocity;
+        startTime = 0;
+        System.out.println("ACCELERATING!");
+
+        if (cases == 0) {
+            System.out.println("case0");
+            deceleration = 0;
+        } else if (cases == 1) {
+            System.out.println("case1");
+            initVelocity = currentVelocity;
         }
     }
 }
