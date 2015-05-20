@@ -15,8 +15,8 @@ public class AddNewCar extends BaseActivity {
     EditText carNameText;
     RadioButton manual, auto;
     RadioButton petrol, diesel, gas, el;
-    RadioButton[] transmission;
-    RadioButton[] fuel;
+    RadioButton[] transmission, fuel;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,10 @@ public class AddNewCar extends BaseActivity {
         diesel = (RadioButton)findViewById(R.id.radioButton_diesel);
         gas = (RadioButton)findViewById(R.id.radioButton_gas);
         el = (RadioButton)findViewById(R.id.radioButton_el);
-        addRB();
+
+       transmission = new RadioButton[] {manual, auto};
+       fuel = new RadioButton[] {petrol, diesel, gas, el};
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,25 +60,24 @@ public class AddNewCar extends BaseActivity {
 
     public void saveCar(View v) {
         String carName = carNameText.getText().toString();
+        String transType = getCheckedRBTrans();
+        String fuelType = getCheckedRBFuel();
 
+        System.out.println(carName + " " + transType + " " + fuelType);
 
-        //System.out.println(carName);
     }
-    protected void getCheckedRB() {
-        for (int i = 0; i < transmission.length; i++) {
-            if(transmission[i].isChecked()) {
-                //String t = transmission[i].getText();
-            }
+    protected String getCheckedRBTrans() {
+        for(int i = 0; i < transmission.length; i ++) {
+            if(transmission[i].isChecked())
+                return transmission[i].getText().toString();
         }
-
+        return null;
     }
-    protected void addRB() {
-        transmission[0] = manual;
-        transmission[1] = auto;
-
-        fuel[0] = petrol;
-        fuel[1] = diesel;
-        fuel[2] = gas;
-        fuel[3] = el;
+    protected String getCheckedRBFuel() {
+        for(int i = 0; i < fuel.length; i++) {
+            if(fuel[i].isChecked())
+                return fuel[i].getText().toString();
+        }
+        return null;
     }
 }
