@@ -34,10 +34,12 @@ public class BrakeModule extends Fragment {
     private float currentVelocity;
     private float finalVelocity;
     private int res;
+    private BrakeUI ui;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.brake_fragment, container, false);
+        ui = (BrakeUI) view.findViewById(R.id.UI);
         initVar();
 
         autoListener();
@@ -74,8 +76,12 @@ public class BrakeModule extends Fragment {
                             startTime = System.nanoTime();
                         }
                         finalVelocity = currentVelocity;
+                        float progress = currentVelocity/300 *100;
+                        ui.setClipping(progress);
+
                         System.out.println("DECELERATING!");
                     }
+
 
                     try {
                         Thread.sleep(100);
