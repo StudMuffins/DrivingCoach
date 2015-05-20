@@ -63,7 +63,8 @@ public class BrakeUI extends View {
 
         //calculate the angle of percentage
         angle_A = (progress * 180) / 100;
-        angle_B = 0;
+        angle_B = angle_A;
+
 
         //Redraw the canvas
         postInvalidate();
@@ -116,11 +117,11 @@ public class BrakeUI extends View {
         //System.out.println("xC= " + xC);
         //System.out.println("yC= " + yC);
         float width = getWidth();
-        float yC = getHeight()/2 + 100; // -290
-        float dL = xC - xC + 90;
-        float dT = yC - xC + 90;
-        float dR = xC + xC - 90;
-        float dD = yC + xC - 90;
+        float yC = getHeight()/2 + 340; // -290
+        float dL = xC - xC + 5;
+        float dT = yC - xC + 5;
+        float dR = xC + xC - 5;
+        float dD = yC + xC - 5;
 
         //System.out.println("width= " + width);
         //System.out.println("height= " + yC);
