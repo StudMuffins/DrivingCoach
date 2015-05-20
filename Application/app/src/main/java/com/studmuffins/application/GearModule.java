@@ -14,7 +14,7 @@ import android.swedspot.automotiveapi.AutomotiveSignalId;
 
 public class GearModule extends Fragment {
 
-    private BrakeUI ui;
+    private GearUI ui;
     private Float gear;
     private Handler mHandler = new Handler();
     private Float signal;
@@ -27,7 +27,7 @@ public class GearModule extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gear_fragment, container, false);
-        ui = (BrakeUI) view.findViewById(R.id.UI);
+        ui = (GearUI) view.findViewById(R.id.UI);
         ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         prevGear = 0;
         autoListener();

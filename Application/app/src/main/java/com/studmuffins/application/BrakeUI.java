@@ -22,14 +22,10 @@ import android.view.animation.DecelerateInterpolator;
 public class BrakeUI extends View {
 
     private Paint paint;
-    private RectF arcDial;
-    private RectF arcOrange;
     private RectF arcSignal;
     private float xC;
     //private float yC;
     private int holderV;
-    private int redV;
-    private int greenV;
     private float angle_A;
     private float angle_B;
     private float signal;
@@ -56,65 +52,18 @@ public class BrakeUI extends View {
         float height = displayMetrics.heightPixels/2;
         xC = displayMetrics.widthPixels/2;
 
-        //xC = getScreenGridUnit() / 2;
-        //yC = (getScreenGridUnit() / 2) - 290;
-        arcDial = new RectF();
-        arcOrange = new RectF();
         arcSignal = new RectF();
 
         //arrow_2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow_2);
     }
 
-    public void setClipping(float progress, double getText) {
+    public void setClipping(float progress) {
         //arrow_1 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.arrow);
-        int convertText = (int)getText;
         signal = progress;
-
-        if(convertText == 251) {
-            textType = "P";
-        } else
-        if (convertText == 0) {
-            textType = "N";
-        } else
-        if(convertText == -1) {
-            textType = "R1";
-        } else
-        if(convertText == -2) {
-            textType = "R2";
-        } else {
-            textType = Integer.toString(convertText);
-        }
 
         //calculate the angle of percentage
         angle_A = (progress * 180) / 100;
         angle_B = 0;
-
-
-        //run animation for the green arcSignal
-        if (progress >= 5 && progress < 50) {
-            greenV = holderV;
-            animateArc();
-            if (progress >= 20) {
-                angle_B = angle_A - 53;
-                if(progress > 30) {
-                    angle_B = 24;
-                }
-            }
-        } else {
-            greenV = 0;
-        }
-
-        //run animation for the red arcSignal
-        if (progress >= 70) {
-            redV = holderV;
-            animateArc();
-            if (progress >= 85) {
-                textType = "!!!";
-                angle_B = angle_A - 220;
-            }
-        } else {
-            redV = 0;
-        }
 
         //Redraw the canvas
         postInvalidate();
@@ -149,12 +98,13 @@ public class BrakeUI extends View {
         });
 
         //start animation at a certain percent
+        /*
         if (greenV == startValue && signal >= 20 && signal <= 30 || redV == startValue && signal >= 85) {
             up.start();
         }
         if (greenV == endValue && signal > 30 || greenV == endValue && signal < 20 || redV == endValue && signal <= 85) {
             down.start();
-        }
+        }*/
     }
 
     @Override
