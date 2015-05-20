@@ -67,9 +67,9 @@ public class BrakeModule extends Fragment {
                     }
 
                     currentVelocity = velocity;
-
+                    float initProgress = initVelocity/300 * 100;
+                    float finalProgress = finalVelocity/300 * 100;
                     if (currentVelocity > finalVelocity || currentVelocity < 1) {
-
                         check();
 
                     } else if (currentVelocity < initVelocity) {
@@ -78,10 +78,9 @@ public class BrakeModule extends Fragment {
                         }
                         finalVelocity = currentVelocity;
 
-
                         System.out.println("DECELERATING!");
                     }
-
+                    ui.setClipping(initProgress, finalProgress);
 
                     try {
                         Thread.sleep(100);
@@ -92,8 +91,6 @@ public class BrakeModule extends Fragment {
 
                     mHandler.post(new Runnable() {
                         public void run() {
-                            float progress = currentVelocity/300 * 100;
-                            ui.setClipping(progress);
                         }
                     });
                 }

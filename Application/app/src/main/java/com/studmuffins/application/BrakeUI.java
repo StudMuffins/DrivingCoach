@@ -28,6 +28,8 @@ public class BrakeUI extends View {
     private int holderV;
     private float angle_A;
     private float angle_B;
+    private float angle_C;
+    private float angle_D;
     private float signal;
     private String textType;
     private Context mContext;
@@ -57,13 +59,15 @@ public class BrakeUI extends View {
         //arrow_2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow_2);
     }
 
-    public void setClipping(float progress) {
+    public void setClipping(float initProgress, float finalProgress) {
         //arrow_1 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.arrow);
-        signal = progress;
+        signal = initProgress;
 
         //calculate the angle of percentage
-        angle_A = (progress * 180) / 100;
+        angle_A = (initProgress * 180) / 100;
         angle_B = angle_A;
+        angle_C = (finalProgress * 180) / 100;
+        angle_D = angle_C;
 
 
         //Redraw the canvas
@@ -118,10 +122,12 @@ public class BrakeUI extends View {
         //System.out.println("yC= " + yC);
         float width = getWidth();
         float yC = getHeight()/2 + 340; // -290
-        float dL = xC - xC + 5;
-        float dT = yC - xC + 5;
-        float dR = xC + xC - 5;
-        float dD = yC + xC - 5;
+        float dL = xC - xC + 90;
+        float dT = yC - xC + 90;
+        float dR = xC + xC - 90;
+        float dD = yC + xC - 90;
+
+        holderV = 100;
 
         //System.out.println("width= " + width);
         //System.out.println("height= " + yC);
@@ -141,6 +147,11 @@ public class BrakeUI extends View {
         paint.setColor(Color.parseColor("#00C853"));
         paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
         canvas.drawArc(arcSignal, 180, angle_B, true, paint);
+
+        paint.setAlpha(255);
+        paint.setColor(Color.parseColor("#00B0FF"));
+        paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+        canvas.drawArc(arcSignal, 180 + angle_B, - angle_D, true, paint);
     }
 }
 
