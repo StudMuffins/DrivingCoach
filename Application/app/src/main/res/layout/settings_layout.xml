@@ -1,0 +1,53 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Switch
+                android:layout_width="370dp"
+                android:layout_height="10dp"
+                android:text="Voice Feedback"
+                android:id="@+id/voice" />
+            <Switch
+                android:layout_width="370dp"
+                android:layout_height="35dp"
+                android:text="Rest Reminder"
+                android:id="@+id/rest" />
+            <Switch
+                android:layout_width="370dp"
+                android:layout_height="35dp"
+                android:text="Brake Coaching"
+                android:id="@+id/brake" />
+            <Switch
+                android:layout_width="370dp"
+                android:layout_height="35dp"
+                android:text="Gear Coaching"
+                android:id="@+id/gear" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="2px"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:background="#2E7D32" />
+
+
+</android.support.v4.widget.DrawerLayout>

@@ -126,6 +126,11 @@ public class BaseActivity extends ActionBarActivity {
                 startActivity(intentProgress);
                 finish(); // finishes the current activity
                 break;
+            case 3:
+                Intent intentSettings = new Intent(this, Settings.class);
+                startActivity(intentSettings);
+                finish();
+                break;
         }
 
         // update selected item and title, then close the drawer
