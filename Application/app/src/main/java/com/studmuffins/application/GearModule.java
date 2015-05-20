@@ -14,7 +14,7 @@ import android.swedspot.automotiveapi.AutomotiveSignalId;
 
 public class GearModule extends Fragment {
 
-    private GearUI ui;
+    private BrakeUI ui;
     private Float gear;
     private Handler mHandler = new Handler();
     private Float signal;
@@ -27,7 +27,7 @@ public class GearModule extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gear_fragment, container, false);
-        ui = (GearUI) view.findViewById(R.id.UI);
+        ui = (BrakeUI) view.findViewById(R.id.UI);
         ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         prevGear = 0;
         autoListener();
@@ -72,10 +72,10 @@ public class GearModule extends Fragment {
         String text = null;
         if(prevGear == sendGear) {
             if (progress >= 20 && progress < 25) {
-                text = "Shift up";
+                text = "Increase Gear";
 
             } else if (progress >= 25 && progress <= 30) {
-                text = "Shift up" + "Skip one Gear";
+                text = "Increase Gear" + "Skip one Gear";
             } else if (progress > 85) {
                 text = "Warning";
             }

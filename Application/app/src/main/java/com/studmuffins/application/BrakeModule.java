@@ -38,9 +38,6 @@ public class BrakeModule extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.brake_fragment, container, false);
-        text = (TextView) view.findViewById(R.id.Value);
-        text.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        text.setText(String.valueOf(jerk));
         initVar();
 
         autoListener();
@@ -89,8 +86,6 @@ public class BrakeModule extends Fragment {
 
                     mHandler.post(new Runnable() {
                         public void run() {
-
-                            text.setText(String.valueOf(jerk));
                         }
                     });
                 }
@@ -152,16 +147,15 @@ public class BrakeModule extends Fragment {
     }
 
     private void reset(int res) {
-        int cases = res;
 
         finalVelocity = currentVelocity;
         startTime = 0;
         System.out.println("ACCELERATING!");
 
-        if (cases == 0) {
+        if (res == 0) {
             System.out.println("case0");
             deceleration = 0;
-        } else if (cases == 1) {
+        } else if (res == 1) {
             System.out.println("case1");
             initVelocity = currentVelocity;
         }
