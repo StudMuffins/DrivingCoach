@@ -1,63 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/drawer_layout"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
-
-<!-- The main content view -->
-
-<FrameLayout
-    android:id="@+id/content_frame"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:weightSum="1">
-        <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Voice Feedback"
-            android:id="@+id/voice"
-            android:layout_weight="0.05"
-            android:checked="false" />
-
-
-        <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Brake Coaching"
-            android:layout_weight="0.05"
-            android:id="@+id/brake"
-            />
-        <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Gear Coaching"
-            android:layout_weight="0.05"
-            android:id="@+id/gear"
-           />
-    </LinearLayout>
-
-</FrameLayout>
-
-<!-- The navigation drawer -->
-
-<ListView
-    android:id="@+id/left_drawer"
-    android:layout_width="260dp"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:choiceMode="singleChoice"
-    android:textAppearance="?android:attr/textAppearanceListItem"
-    android:background="@color/navdrawer_background"
-    android:paddingTop="16dp"
-    android:dividerHeight="0dp"
-    android:divider="@android:color/transparent"/>
+    android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        />
 
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>
