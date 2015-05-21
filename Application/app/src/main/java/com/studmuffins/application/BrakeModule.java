@@ -35,6 +35,8 @@ public class BrakeModule extends Fragment {
     private float finalVelocity;
     private int res;
     private BrakeUI ui;
+    private float finalProgress;
+    private float initProgress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,19 +69,21 @@ public class BrakeModule extends Fragment {
                     }
 
                     currentVelocity = velocity;
-                    float initProgress = initVelocity/300 * 100;
-                    float finalProgress = finalVelocity/300 * 100;
-                    if (currentVelocity > finalVelocity || currentVelocity < 1) {
-                        check();
 
-                    } else if (currentVelocity < initVelocity) {
+
+                    if (currentVelocity > finalVelocity || currentVelocity > initVelocity) {
+                        check();
+                    } else
+                    if (currentVelocity < initVelocity) {
                         if (startTime == 0) {
                             startTime = System.nanoTime();
                         }
                         finalVelocity = currentVelocity;
+                        finalProgress = (finalVelocity/300) * 100;
 
                         System.out.println("DECELERATING!");
                     }
+
                     ui.setClipping(initProgress, finalProgress);
 
                     try {
@@ -108,11 +112,11 @@ public class BrakeModule extends Fragment {
             seconds = elapsedTime / 1000000000;
             deceleration = (initVelocity - finalVelocity) / seconds;
 
-            System.out.println("Elapsed time: " + seconds + "sec");
+            //System.out.println("Elapsed time: " + seconds + "sec");
 
-            System.out.println("Initial velocity: " + initVelocity);
-            System.out.println("Final velocity: " + finalVelocity);
-            System.out.println("Deceleration value: " + deceleration);
+            //System.out.println("Initial velocity: " + initVelocity);
+            //System.out.println("Final velocity: " + finalVelocity);
+            //System.out.println("Deceleration value: " + deceleration);
 
             brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
             if (brake != null) {
@@ -126,7 +130,8 @@ public class BrakeModule extends Fragment {
             }
 
 
-        } else if (deceleration == 0) {
+        } else
+        if (deceleration == 0) {
             res = 1;
             reset(res);
         }
@@ -153,16 +158,17 @@ public class BrakeModule extends Fragment {
 
     private void reset(int res) {
 
-        finalVelocity = currentVelocity;
         startTime = 0;
         System.out.println("ACCELERATING!");
 
         if (res == 0) {
             System.out.println("case0");
             deceleration = 0;
+            finalVelocity = 0;
         } else if (res == 1) {
             System.out.println("case1");
             initVelocity = currentVelocity;
+            initProgress = (initVelocity/300) * 100;
         }
     }
 }

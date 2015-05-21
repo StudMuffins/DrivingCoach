@@ -61,14 +61,12 @@ public class BrakeUI extends View {
 
     public void setClipping(float initProgress, float finalProgress) {
         //arrow_1 = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.arrow);
-        signal = initProgress;
+        signal = finalProgress;
 
         //calculate the angle of percentage
         angle_A = (initProgress * 180) / 100;
-        angle_B = angle_A;
-        angle_C = (finalProgress * 180) / 100;
-        angle_D = angle_C;
-
+        angle_B = (finalProgress * 180) / 100;
+        System.out.println("ANGLE_B: " + angle_B);
 
         //Redraw the canvas
         postInvalidate();
@@ -122,12 +120,12 @@ public class BrakeUI extends View {
         //System.out.println("yC= " + yC);
         float width = getWidth();
         float yC = getHeight()/2 + 340; // -290
-        float dL = xC - xC + 90;
-        float dT = yC - xC + 90;
-        float dR = xC + xC - 90;
-        float dD = yC + xC - 90;
+        float dL = xC - xC + 200;
+        float dT = yC - xC + 200;
+        float dR = xC + xC - 200;
+        float dD = yC + xC - 200;
 
-        holderV = 100;
+        holderV = 0;
 
         //System.out.println("width= " + width);
         //System.out.println("height= " + yC);
@@ -146,12 +144,14 @@ public class BrakeUI extends View {
         paint.setAlpha(255);
         paint.setColor(Color.parseColor("#00C853"));
         paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        canvas.drawArc(arcSignal, 180, angle_B, true, paint);
+        canvas.drawArc(arcSignal, 180, angle_A, true, paint);
 
-        paint.setAlpha(255);
-        paint.setColor(Color.parseColor("#00B0FF"));
-        paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        canvas.drawArc(arcSignal, 180 + angle_B, - angle_D, true, paint);
+        if (signal > 0) {
+            paint.setAlpha(255);
+            paint.setColor(Color.parseColor("#00B0FF"));
+            paint.setShadowLayer(8.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+            canvas.drawArc(arcSignal, 180 + angle_A, angle_A - angle_B, true, paint);
+        }
     }
 }
 
