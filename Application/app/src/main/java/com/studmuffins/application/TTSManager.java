@@ -1,8 +1,11 @@
 package com.studmuffins.application;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.widget.Switch;
+
 import java.util.Locale;
 
 /**
@@ -12,6 +15,7 @@ import java.util.Locale;
 public class TTSManager {
     private TextToSpeech tts = null;
     private boolean isLoaded = false;
+
 
     public void init(Context context) {
         try {
@@ -57,5 +61,7 @@ public class TTSManager {
             Log.e("error", "TTS Not Initialized");
         }
     }
+
+
 
 }
