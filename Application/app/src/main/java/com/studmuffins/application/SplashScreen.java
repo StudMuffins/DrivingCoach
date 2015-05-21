@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.content.Intent;
 /**
  * Created by Jonathan on 2015-05-21.
  */
@@ -20,8 +19,10 @@ public class SplashScreen extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 Intent intent = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(intent);
+
 
                 finish();
             }

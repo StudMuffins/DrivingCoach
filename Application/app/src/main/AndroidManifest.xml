@@ -18,17 +18,18 @@
         android:theme="@style/CustomActionBarTheme" >
         <activity
             android:name=".SplashScreen"
-            android:label="application" >
+            android:label=".application" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MainActivity"
-            android:label="application">
-         </activity>
+            android:label=".application">
+
+        </activity>
+
         <activity android:name=".ProgressTracking"/>
         <activity android:name=".BaseActivity"/>
         <activity android:name=".AppPreferences"/>
