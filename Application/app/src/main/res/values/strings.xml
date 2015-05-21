@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">Application</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="transmission">Transmission:</string>
     <string name="action_settings">Settings</string>
     <string name="progress_button_text">See Progress Scores</string>
     <string-array name="nav_drawer_items">
         <item>Coaching</item>
         <item>Swap Cars</item>
+        <item>Edit Cars</item>
         <item>Progress Tracking</item>
         <item>Settings</item>
     </string-array>

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="actionbar_text">#000000</color>
-    <color name="actionbar_background">#4CAF50</color>
-    <color name="navdrawer_background">#FAFAFA</color>
-    <color name="navitem_background">#FAFAFA</color>
+    <color name="actionbar_text">#000000 </color>
+    <color name="actionbar_background">#4CAF50 </color>
+    <color name="navdrawer_background">#FAFAFA </color>
+    <color name="navitem_background">#FAFAFA </color>
+    <color name="background">#F5F5F5 </color>
+    <color name="textcolour_title">#212121 </color>
+    <color name="textcolour_sub">#616161 </color>
+    <color name="title_background">#EEEEEE </color>
 </resources>

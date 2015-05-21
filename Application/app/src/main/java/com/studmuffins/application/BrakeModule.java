@@ -115,19 +115,19 @@ public class BrakeModule extends Fragment {
             seconds = elapsedTime / 1000000000;
             deceleration = (initVelocity - finalVelocity) / seconds;
 
-<<<<<<< HEAD
+
             //System.out.println("Elapsed time: " + seconds + "sec");
 
             //System.out.println("Initial velocity: " + initVelocity);
             //System.out.println("Final velocity: " + finalVelocity);
             //System.out.println("Deceleration value: " + deceleration);
-=======
+
           //  System.out.println("Elapsed time: " + seconds + "sec");
 
             //System.out.println("Initial velocity: " + initVelocity);
            // System.out.println("Final velocity: " + finalVelocity);
             // System.out.println("Deceleration value: " + deceleration);
->>>>>>> bcf459699f7bf3a4418bb7fe931a2cfd40375412
+
 
             brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
             if (brake != null) {

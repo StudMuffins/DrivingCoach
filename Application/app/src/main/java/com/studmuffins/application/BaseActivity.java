@@ -122,11 +122,16 @@ public class BaseActivity extends ActionBarActivity {
                 finish();
                 break;
             case 2:
+                Intent intentEdit = new Intent(this, AddNewCar.class);
+                startActivity(intentEdit);
+                finish();
+                break;
+            case 3:
                 Intent intentProgress = new Intent(this, ProgressTracking.class);
                 startActivity(intentProgress);
                 finish(); // finishes the current activity
                 break;
-            case 3:
+            case 4:
                 Intent intentPreference = new Intent(this, AppPreferences.class);
                 startActivity(intentPreference);
                 finish(); // finishes the current activity

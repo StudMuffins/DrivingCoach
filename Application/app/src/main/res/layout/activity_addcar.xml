@@ -1,0 +1,241 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="16dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:background="@color/background"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:id="@+id/title_add"
+                android:layout_height="48dp"
+                android:background="@color/title_background"
+                android:weightSum="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add a new car"
+                    android:textSize="20sp"
+                    android:textColor="@color/textcolour_title"
+                    android:paddingStart="8dp"
+                    android:layout_gravity="start|center"
+                    android:layout_weight="1.00" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:layout_gravity="end|center"
+                    android:textSize="15sp"
+                    android:id="@+id/save_button"
+                    android:onClick="saveCar"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:id="@+id/car_name"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title_carname"
+                    android:text="Car Name: "
+                    android:textSize="15sp"
+                    android:textColor="@color/textcolour_title"
+                    android:layout_gravity="start|center"
+                    android:layout_weight="0.15"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_carname"
+                    android:layout_gravity="end|center"
+                    android:layout_weight="0.7"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/transmission"
+                android:layout_marginTop="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transmission"
+                    android:id="@+id/title_transmission"
+                    android:textSize="15sp"
+                    android:textColor="@color/textcolour_title"
+                    android:layout_gravity="start|center"/>
+
+                <RadioGroup
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Manual"
+                        android:textSize="10sp"
+                        android:textColor="@color/textcolour_sub"
+                        android:id="@+id/radioButton_manual"
+                        android:layout_gravity="start|center" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Automatic"
+                        android:id="@+id/radioButton_auto"
+                        android:textSize="10sp"
+                        android:textColor="@color/textcolour_sub"
+                        android:layout_gravity="start|center" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fueltype"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fuel Type:"
+                    android:id="@+id/title_fueltype"
+                    android:textSize="15sp"
+                    android:textColor="@color/textcolour_title"
+                    android:layout_gravity="start|center"/>
+
+                <RadioGroup
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp">
+
+                    <GridLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:rowCount="2">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Petrol"
+                            android:id="@+id/radioButton_petrol"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diesel"
+                            android:id="@+id/radioButton_diesel"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Electric"
+                            android:id="@+id/radioButton_el"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Natural Gas"
+                            android:id="@+id/radioButton_gas"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
+                    </GridLayout>
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/title_delete"
+                android:background="@color/title_background"
+                android:weightSum="1">
+                <TextView
+                    android:layout_width="277dp"
+                    android:text="Delete an existing car"
+                    android:layout_height="32dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/textcolour_title"
+                    android:paddingStart="8dp"
+                    android:layout_gravity="start|center"
+                    android:layout_weight="1"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    android:layout_gravity="end|center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/deletecar_name"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title_deletecarname"
+                    android:text="Car Name: "
+                    android:textSize="15sp"
+                    android:textColor="@color/textcolour_title"
+                    android:layout_gravity="start|center"
+                    android:layout_weight="0.15"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:background="@color/navdrawer_background"
+        android:paddingTop="16dp"
+        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"/>
+
+
+</android.support.v4.widget.DrawerLayout>
