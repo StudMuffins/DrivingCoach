@@ -1,17 +1,13 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditTextPreference android:title="Your Name"
-        android:key="username"
-        android:summary="Please provide your username"></EditTextPreference>
-    <SwitchPreference android:title="Application Updates"
-        android:defaultValue="false"
-        android:summary="This option if selected will allow the application to check for latest versions."
-        android:key="applicationUpdates" />
-    <ListPreference     android:title="Download Details"
-        android:summary="Select the kind of data that you would like to download"
-        android:key="downloadType"
-        android:defaultValue="1"
-        android:entries="@array/listArray"
-        android:entryValues="@array/listValues" />
+    <SwitchPreference android:title="Voice Feedback"
+        android:summary="This option allows the user to turn on/off the voice feedback."
+        android:key="voiceFeed" />
+    <SwitchPreference android:title="Gear Coaching"
+        android:summary="This option allows the user to activate/deactivate gear coaching functionality."
+        android:key="gearCoach" />
+    <SwitchPreference android:title="Brake Coaching"
+        android:summary="This option allows the user to activate/deactivate brake coaching functionality."
+        android:key="brakeCoach" />
 </PreferenceScreen>

@@ -1,6 +1,7 @@
 package com.studmuffins.application;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,9 @@ public class MainActivity extends BaseActivity {
     private GearModule gearMod;
     private String text;
     private String cloneText;
-    TTSManager ttsManager = null;
+    private TTSManager ttsManager = null;
+    private SharedPreferences appPref;
+    private Boolean boo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
         gearMod = (GearModule) getFragmentManager().findFragmentById(R.id.gearFrag);
+        appPref = getSharedPreferences("appPreferences", MODE_PRIVATE);
 
         set(navMenuTitles);
         new AGASystem().execute();
@@ -35,7 +39,12 @@ public class MainActivity extends BaseActivity {
                 cloneText = null;
                 while (true) {
 
-                    checkInputs();
+                    boo = appPref.getBoolean("voiceFeed", true);
+                    System.out.println("BOO!!!  " + boo);
+
+                    if (boo == true) {
+                        checkInputs();
+                    }
 
                     try {
                         Thread.sleep(500);
