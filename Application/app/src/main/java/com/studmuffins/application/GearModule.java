@@ -72,10 +72,10 @@ public class GearModule extends Fragment {
         String text = null;
         if(prevGear == sendGear) {
             if (progress >= 20 && progress < 25) {
-                text = "Shift up";
+                text = "Increase Gear";
 
             } else if (progress >= 25 && progress <= 30) {
-                text = "Shift up" + "Skip one Gear";
+                text = "Increase Gear" + "Skip one Gear";
             } else if (progress > 85) {
                 text = "Warning";
             }
