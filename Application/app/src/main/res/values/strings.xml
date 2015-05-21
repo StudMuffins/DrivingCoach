@@ -7,10 +7,12 @@
     <string-array name="nav_drawer_items">
         <item>Coaching</item>
         <item>Swap Cars</item>
+        <item>Edit Cars</item>
         <item>Progress Tracking</item>
         <item>Settings</item>
     </string-array>
-    <array name="nav_drawer_icons">
-
-    </array>
+    <String-array name="edit_drawer_items">
+        <item>Add a new car</item>
+        <item>Delete a car</item>
+    </String-array>
 </resources>

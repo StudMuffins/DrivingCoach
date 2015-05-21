@@ -39,9 +39,9 @@ public class BaseActivity extends ActionBarActivity {
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
         // adding nav drawer items
-            for (int i = 0; i < navMenuTitles.length; i++) {
-                navDrawerItems.add(new NavDrawerItem(navMenuTitles[i]));
-            }
+        for (int i = 0; i < navMenuTitles.length; i++) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i]));
+        }
 
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 

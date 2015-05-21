@@ -26,13 +26,14 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
-                android:id="@+id/car_name">
+                android:id="@+id/car_name"
+                android:layout_marginTop="8dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/title_carname"
                     android:text="Car Name: "
-                    android:textSize="20dp"
+                    android:textSize="15sp"
                     android:textColor="@color/textcolour_title"
                     android:layout_gravity="start|center"
                     android:layout_weight="0.15"/>
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/transmission"
                     android:id="@+id/title_transmission"
-                    android:textSize="20dp"
+                    android:textSize="15sp"
                     android:textColor="@color/textcolour_title"
                     android:layout_gravity="start|center"/>
 
@@ -68,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Manual"
-                        android:textSize="15dp"
+                        android:textSize="10sp"
                         android:textColor="@color/textcolour_sub"
                         android:id="@+id/radioButton_manual"
                         android:layout_gravity="start|center" />
@@ -77,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:text="Automatic"
                         android:id="@+id/radioButton_auto"
-                        android:textSize="15dp"
+                        android:textSize="10sp"
                         android:textColor="@color/textcolour_sub"
                         android:layout_gravity="start|center" />
                 </RadioGroup>
@@ -88,15 +89,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/fueltype"
-                android:layout_marginTop="16dp"
-                android:layout_weight="0.74">
+                android:layout_marginTop="16dp">
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Fuel Type:"
                     android:id="@+id/title_fueltype"
-                    android:textSize="20dp"
+                    android:textSize="15sp"
                     android:textColor="@color/textcolour_title"
                     android:layout_gravity="start|center"/>
 
@@ -105,41 +105,48 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
+                    <GridLayout
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="Petrol"
-                        android:id="@+id/radioButton_petrol"
-                        android:textSize="15dp"
-                        android:textColor="@color/textcolour_sub"
-                        android:layout_gravity="start|center"/>
+                        android:columnCount="2"
+                        android:rowCount="2">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Diesel"
-                        android:id="@+id/radioButton_diesel"
-                        android:textSize="15dp"
-                        android:textColor="@color/textcolour_sub"
-                        android:layout_gravity="start|center"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Petrol"
+                            android:id="@+id/radioButton_petrol"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Electric"
-                        android:id="@+id/radioButton_el"
-                        android:textSize="15dp"
-                        android:textColor="@color/textcolour_sub"
-                        android:layout_gravity="start|center"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diesel"
+                            android:id="@+id/radioButton_diesel"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Natural Gas"
-                        android:id="@+id/radioButton_gas"
-                        android:textSize="15dp"
-                        android:textColor="@color/textcolour_sub"
-                        android:layout_gravity="start|center"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Electric"
+                            android:id="@+id/radioButton_el"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Natural Gas"
+                            android:id="@+id/radioButton_gas"
+                            android:textSize="10sp"
+                            android:textColor="@color/textcolour_sub"
+                            android:layout_gravity="start|center"/>
+                    </GridLayout>
                 </RadioGroup>
 
             </LinearLayout>
@@ -154,11 +161,21 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="32dp"
+            android:text="Add a new car"
+            android:textSize="20sp"
+            android:textColor="@color/textcolour_title"
+            android:layout_marginTop="3dp"
+            android:paddingStart="8dp"
+            android:background="@color/title_background"/>
+
     </FrameLayout>
 
     <!-- The navigation drawer -->
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/left_drawer"
         android:layout_width="260dp"
         android:layout_height="match_parent"

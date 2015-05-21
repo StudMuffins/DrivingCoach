@@ -118,6 +118,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return cars;
     }
 
+    public String[] getCarNames() {
+        String[] carNames = new String[] {};
+
+        // 1. build the query
+        String query = "SELECT name FROM" + TABLE_CAR;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. add each name to the list
+        if(cursor.moveToFirst()) {
+            int i = 0;
+            do {
+                carNames[i] = cursor.getString(i);
+                i++;
+            } while (cursor.moveToNext());
+        }
+
+        return carNames;
+    }
+
     public int updateCar(Car car) {
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
