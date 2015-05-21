@@ -21,6 +21,7 @@ public class ProgressTracking extends BaseActivity {
     private TextView text_fuel;
     private TextView text_brake;
     private LinearLayout fuelLayout, gearLayout, brakeLayout;
+    MySQLiteHelperTrip db;
 
     // constructor
     protected void onCreate(Bundle savedInstanceState) {
