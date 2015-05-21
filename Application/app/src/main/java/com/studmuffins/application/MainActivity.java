@@ -11,8 +11,6 @@ public class MainActivity extends BaseActivity {
 
     private String[] navMenuTitles;
     TTSManager ttsManager = null;
-    CarsManager cManager;
-    ScoresManager sManager;
 
 
     @Override
@@ -25,8 +23,6 @@ public class MainActivity extends BaseActivity {
 
         ttsManager = new TTSManager();
         ttsManager.init(this);
-        cManager = new CarsManager(getApplicationContext());
-        sManager = new ScoresManager(getApplicationContext());
     }
 
 

@@ -1,7 +1,8 @@
 BEGIN TRANSACTION;
 CREATE TABLE `CarsDB` (
-	`Username`	TEXT UNIQUE,
-	`Vehicle`	TEXT,
-	PRIMARY KEY(Username)
+	`carName`	TEXT UNIQUE,
+	`transmission`	TEXT,
+	`fuelType`  TEXT,
+	PRIMARY KEY(carName)
 );
 COMMIT;

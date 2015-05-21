@@ -16,6 +16,7 @@ public class AddNewCar extends BaseActivity {
     RadioButton manual, auto;
     RadioButton petrol, diesel, gas, el;
     RadioButton[] transmission, fuel;
+    MySQLiteHelper db;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class AddNewCar extends BaseActivity {
 
        transmission = new RadioButton[] {manual, auto};
        fuel = new RadioButton[] {petrol, diesel, gas, el};
+
+       db = new MySQLiteHelper(this);
 
     }
 
@@ -63,7 +66,11 @@ public class AddNewCar extends BaseActivity {
         String transType = getCheckedRBTrans();
         String fuelType = getCheckedRBFuel();
 
-        System.out.println(carName + " " + transType + " " + fuelType);
+        //System.out.println(carName + " " + transType + " " + fuelType);
+
+        db.addCar(new Car(carName, transType, fuelType));
+
+        System.out.println(db.getAllCars());
 
     }
     protected String getCheckedRBTrans() {
