@@ -41,8 +41,10 @@ public class BrakeModule extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.brake_fragment, container, false);
+
         ui = (BrakeUI) view.findViewById(R.id.UI);
         ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
         initVar();
 
         autoListener();
@@ -95,6 +97,7 @@ public class BrakeModule extends Fragment {
 
                     mHandler.post(new Runnable() {
                         public void run() {
+
                         }
                     });
                 }
@@ -112,11 +115,19 @@ public class BrakeModule extends Fragment {
             seconds = elapsedTime / 1000000000;
             deceleration = (initVelocity - finalVelocity) / seconds;
 
+<<<<<<< HEAD
             //System.out.println("Elapsed time: " + seconds + "sec");
 
             //System.out.println("Initial velocity: " + initVelocity);
             //System.out.println("Final velocity: " + finalVelocity);
             //System.out.println("Deceleration value: " + deceleration);
+=======
+          //  System.out.println("Elapsed time: " + seconds + "sec");
+
+            //System.out.println("Initial velocity: " + initVelocity);
+           // System.out.println("Final velocity: " + finalVelocity);
+            // System.out.println("Deceleration value: " + deceleration);
+>>>>>>> bcf459699f7bf3a4418bb7fe931a2cfd40375412
 
             brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
             if (brake != null) {
@@ -159,8 +170,7 @@ public class BrakeModule extends Fragment {
     private void reset(int res) {
 
         startTime = 0;
-        System.out.println("ACCELERATING!");
-
+       // System.out.println("ACCELERATING!");
         if (res == 0) {
             System.out.println("case0");
             deceleration = 0;
