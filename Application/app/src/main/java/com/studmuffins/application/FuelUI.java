@@ -15,21 +15,24 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 public class FuelUI extends View {
 
     private Paint paint;
     private Paint mFillPaint;
     private Path maskArc;
-    private RectF rectECO = new RectF();
-    private RectF rectFUEL = new RectF();
-    private RectF rectClip = new RectF();
+    private RectF rectECO;
+    private RectF rectFUEL;
+    private RectF rectClip;
     private float signal;
     private String textType;
     private int clipHeight;
     private float xC;
     private float yC;
+    private float angle;
     private Path mClippingPath;
 
     public FuelUI(Context context) {
@@ -38,33 +41,35 @@ public class FuelUI extends View {
 
     public FuelUI(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initVector();
+        initVector(context);
     }
 
-    public void initVector() {
-        mClippingPath = new Path();
-    }
-
-    public void setClipping(float progress) {
-        paint = new Paint();
-        mFillPaint = new Paint();
-        //int convertText = (int)getText;
-        //textType = Integer.toString(convertText);
-
+    public void initVector(Context context) {
         //apply ANTI_ALIAS for smoothing out the edges of the shapes
+        paint = new Paint();
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        //paint.setStyle(Paint.Style.FILL);
         paint.setStyle(Paint.Style.FILL);
-        signal = progress;
-        mClippingPath.reset();
-        clipHeight = (int) progress;
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(70);
 
-        mClippingPath.moveTo(rectClip.centerX(), rectClip.centerY());
-        //Draw an arc from center to given angle
-        mClippingPath.addArc(rectClip, 0, 360);
-        //Draw a line from end of arc to center
-        mClippingPath.lineTo(rectClip.centerX(), rectClip.centerY());
-        //Redraw the canvas
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(displayMetrics);
+        float height = displayMetrics.heightPixels/2;
+        xC = displayMetrics.widthPixels/2;
+
+        rectECO = new RectF();
+        rectFUEL = new RectF();
+        rectClip = new RectF();
+
+        //arrow_2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow_2);
+    }
+
+    public void setClipping(float progress, float getText) {
+
+        int convertText = (int) getText;
+        textType = Integer.toString(convertText);
+        angle = (progress * 360)/100;
         postInvalidate();
     }
 
@@ -76,24 +81,35 @@ public class FuelUI extends View {
         //get the width and height of the canvas
         float width = getWidth();
         float height = getHeight();
-        xC = width / 2;
-        yC = height / 2 + 200;
+        float yC = getHeight()/2 + 450; // -290
+        float dL = xC - xC + 300;
+        float dT = yC - xC + 300;
+        float dR = xC + xC - 300;
+        float dD = yC + xC - 300;
 
         //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
         //rectECO.set(xC - 500, yC - 500, xC + 500, yC + 500);
-        rectECO = new RectF(xC - 450, yC - 450, xC + 450, yC + 450);
-        rectFUEL = new RectF(xC - 450, yC - 450, xC + 450, yC + 450);
-        rectClip = new RectF(xC - 400, yC - 400, xC + 400, yC + 400);
+        rectFUEL.set(dL, dT, dR, dD);
+        rectECO.set(dL + 10, dT + 10, dR - 10, dD - 10);
+        rectClip.set(0, dT - 25, width, height);
         //Colour and draw the clip arcs of each rectangle
-
-        canvas.clipPath(mClippingPath, Region.Op.DIFFERENCE);
-        paint.setColor(Color.parseColor("#00C853"));
-        paint.setShadowLayer(2.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        canvas.drawArc(rectECO, 40, 100, true, paint);
-        paint.setColor(Color.parseColor("#424242"));
+        paint.setShadowLayer(16.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
+        paint.setColor(Color.parseColor("#FAFAFA"));
+        canvas.drawRect(rectClip, paint);
         paint.clearShadowLayer();
-        canvas.drawArc(rectFUEL, 140, -clipHeight, true, paint);
+        paint.setColor(Color.parseColor("#000000"));
+        paint.setAlpha(50);
+        canvas.drawArc(rectFUEL, 0, 360, true, paint);
+        paint.setColor(Color.parseColor("#00C853"));
+        canvas.drawArc(rectFUEL, 90, angle, true, paint);
+
+        paint.setColor(Color.parseColor("#FAFAFA"));
+        canvas.drawArc(rectECO, 0, 360, true, paint);
         //canvas.drawArc(rectECO, 20, 130, true, paint);
         //colour and draw the gear value text
+
+        paint.setColor(Color.parseColor("#000000"));
+        paint.setAlpha(208);
+        canvas.drawText(textType, xC, yC + 30, paint);
     }
 }

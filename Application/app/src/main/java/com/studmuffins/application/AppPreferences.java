@@ -55,6 +55,7 @@ public class AppPreferences extends ActionBarActivity {
             addPreferencesFromResource(R.xml.preferences);
             //setContentView(R.layout.settings_layout);
             PreferenceManager prefMgr = getPreferenceManager();
+            prefMgr.getSharedPreferences();
             prefMgr.setSharedPreferencesName("appPreferences");
         }
     }

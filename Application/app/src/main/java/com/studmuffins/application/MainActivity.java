@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
                 while (true) {
 
                     boo = appPref.getBoolean("voiceFeed", true);
-                    System.out.println("BOO!!!  " + boo);
+                    //System.out.println("BOO!!!  " + boo);
 
                     if (boo == true) {
                         checkInputs();

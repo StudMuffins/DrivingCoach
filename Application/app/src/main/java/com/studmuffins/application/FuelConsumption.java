@@ -3,7 +3,7 @@ package com.studmuffins.application;
 /**
  * Created by hari on 08/04/15.
  */
-//Hi zoe!
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,14 +23,14 @@ public class FuelConsumption extends Fragment {
     private Float signal;
     private float sendSignal;
     private float textSignal;
-    private int progress;
+    private float progress;
     private ProgressBar bar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fuel_fragment, container, false);
         ui = (FuelUI) view.findViewById(R.id.UI);
-        bar = (ProgressBar) view.findViewById(R.id.progressBar);
+        //bar = (ProgressBar) view.findViewById(R.id.progressBar);
         //ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         //text = (TextView) view.findViewById(R.id.Value);
         dosomething();
@@ -53,12 +53,13 @@ public class FuelConsumption extends Fragment {
                         //convertSignal = 10;
 
                     //}
-                    progress = (int) (sendSignal/125) * 100;
+                    progress =(sendSignal/125) * 100;
+                    //System.out.println("FUEL!  " + progress);
                     //Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
-                            bar.setProgress(progress);
-                            //ui.setClipping(progress);
+                            //bar.setProgress(progress);
+                            ui.setClipping(progress, sendSignal);
                             //text.setText(""+progress+"%");
                         }
                     });

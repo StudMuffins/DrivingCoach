@@ -50,7 +50,7 @@ public class GearUI extends View {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(500);
 
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         final DisplayMetrics displayMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         float height = displayMetrics.heightPixels/2;
