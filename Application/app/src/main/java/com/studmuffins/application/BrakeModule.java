@@ -41,11 +41,14 @@ public class BrakeModule extends Fragment {
     private float finalProgress;
     private int res;
     private BrakeUI ui;
-    private float totalJerk;                    // All of the jerk values added together.
-    private double safeJerks;
-    private double totalAmountOfJerks;
-    private double score;
+    private float totalJerk = 0;                    // All of the jerk values added together.
+    private double safeJerks = 0;                   // All of the safe jerks added together.
+    private double totalAmountOfJerks = 0;
+    private double score = 0;
 
+    double TOTALAMOUNTOFJERKS;
+    double SAFEJERKS;
+    double SCORE;
 
 
     @Override
@@ -57,19 +60,20 @@ public class BrakeModule extends Fragment {
 
         autoListener();
         return view;
+
     }
 
-    // Initialize final velocity and deceleration to 0.
+    @Override
+    public void onStop() {
+        super.onStop();  // Always call the superclass method first
+        TOTALAMOUNTOFJERKS = totalAmountOfJerks;
+        SAFEJERKS = safeJerks;
+        SCORE = setTotalScore();
+    }
 
     private void initVar() {
         finalVelocity = 0;
         deceleration = 0;
-        totalJerk = 0;
-        safeJerks = 0;
-        totalAmountOfJerks = 0;
-        score = 0;
-
-
     }
 
 
@@ -204,21 +208,31 @@ public class BrakeModule extends Fragment {
 
     private void addJerk (float t){
         if(t < 2.0){
-            safeJerks++;
+            safeJerks = safeJerks + 1;
+            System.out.println("safeJerks1: "+ safeJerks);
         }
-        totalAmountOfJerks++;
+        totalAmountOfJerks = totalAmountOfJerks + 1;
+
+        System.out.println("totalAmountOfJerks: "+ totalAmountOfJerks);
+
+        System.out.println("Here1");
 
         totalJerk += t;
+
     }
 
 
-    public void setTotalScore(){
-        score = 100 * (safeJerks / totalAmountOfJerks);
-        System.out.println("You got a total score of: " + score + "% with a total jerk of " + totalJerk + "m/s^3 during the whole trip.");
+    public double setTotalScore(){
+        score = 100 * (SAFEJERKS / TOTALAMOUNTOFJERKS);
+        System.out.println("safe: "+ SAFEJERKS);
+        System.out.println("total: "+ TOTALAMOUNTOFJERKS);
+        System.out.println("You got a total score of: " + score + "%");
+
+                return score;
     }
 
     public double getScore(){
-        return score;
+        return SCORE;
     }
 
 }

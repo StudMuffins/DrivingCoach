@@ -16,11 +16,14 @@ public class ProgressTracking extends BaseActivity {
     private String gear = "gear";
     private String fuel = "fuel";
     private String brake = "brake";
-    private String fuelScore, gearScore, brakeScore;
+    private String fuelScore;
+    private String gearScore;
+    private double brakeScore;
     private TextView text_gear;
     private TextView text_fuel;
     private TextView text_brake;
     private LinearLayout fuelLayout, gearLayout, brakeLayout;
+    BrakeModule bm;
 
 
     // constructor
@@ -36,7 +39,7 @@ public class ProgressTracking extends BaseActivity {
         setGearScore();
 
         // Set background colours
-        setBrakeColour();
+        //setBrakeColour();
         setFuelColour();
         setGearColour();
 
@@ -72,7 +75,10 @@ public class ProgressTracking extends BaseActivity {
         return scoreMap.get(brake);
     }
     public void setBrakeScore() {
-        brakeScore = Integer.toString((30 + (int)(Math.random()*71)));
+
+        bm = new BrakeModule();
+        double temptScore = bm.getScore();
+        String brakeScore = Double.toString(temptScore);
         scoreMap.put(brake, brakeScore);
     }
 
