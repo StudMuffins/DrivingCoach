@@ -17,11 +17,10 @@ public class GearModule extends Fragment {
     private GearUI ui;
     private Float gear;
     private Handler mHandler = new Handler();
-    private Float signal;
-    private float sendSignal;
     private float sendGear;
     private float progress;
     private float prevGear;
+    private int gearPoint;
     private AGASystem aga = new AGASystem();
 
     @Override
@@ -30,34 +29,11 @@ public class GearModule extends Fragment {
         ui = (GearUI) view.findViewById(R.id.UI);
         ui.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         prevGear = 0;
-        autoListener();
-        return view;
-    }
-
-    public void autoListener() {
 
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
-                    signal = aga.map.get(AutomotiveSignalId.FMS_ENGINE_SPEED);
-                    gear = aga.map.get(AutomotiveSignalId.FMS_CURRENT_GEAR);
-
-                    if(signal != null) {
-                        sendSignal = signal;
-                    }
-                    if(gear != null) {
-                        sendGear = gear;
-                        //System.out.println("Gear Level: " + text);
-                    }
-
-                    progress = (sendSignal / 10000) * 100;
-
-                    mHandler.post(new Runnable() {
-                        public void run() {
-                            ui.setClipping(progress, sendGear);
-                        }
-                    });
-
+                    autoListener();
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -66,22 +42,68 @@ public class GearModule extends Fragment {
                 }
             }
         }).start();
+
+        return view;
     }
 
+    private void autoListener() {
+        Float signal = aga.map.get(AutomotiveSignalId.FMS_ENGINE_SPEED);
+        gear = aga.map.get(AutomotiveSignalId.FMS_CURRENT_GEAR);
+
+        // Once signal is != null then calculate the percentage of the current RPM
+        if(signal != null) {
+            progress = (signal / 10000) * 100;
+        }
+        if(gear != null) {
+            sendGear = gear;
+        }
+
+        // Post the Percentage of RPM and current gear to GearUI
+        mHandler.post(new Runnable() {
+            public void run() {
+                ui.setClipping(progress, sendGear);
+            }
+        });
+    }
+
+    // Return a string to be used for voice feedback
+    // when specific conditions are met
     public String gearChange() {
         String text = null;
+
         if(prevGear == sendGear) {
             if (progress >= 20 && progress < 25) {
                 text = "Shift Up";
 
-            } else if (progress >= 25 && progress <= 30) {
+                if (sendGear > prevGear) {
+                    gearPoint += 1;
+                }
+            } else
+            if (progress >= 25 && progress <= 30) {
                 text = "Shift Up" + "Skip one Gear";
-            } else if (progress > 85) {
+
+                if (sendGear > prevGear) {
+                    gearPoint += 2;
+                }
+            } else
+            if (progress > 85) {
                 text = "Warning";
             }
         } else {
             prevGear = sendGear;
         }
+
+        if (progress > 30) {
+            if (sendGear > prevGear) {
+                gearPoint -= 2;
+            }
+        }
+
         return text;
+    }
+
+    public int getGear(int point) {
+        point = gearPoint;
+        return point;
     }
 }

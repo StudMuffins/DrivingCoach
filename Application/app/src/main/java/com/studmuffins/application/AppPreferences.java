@@ -3,22 +3,18 @@ package com.studmuffins.application;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.support.v7.widget.Toolbar;
 
 /**
  * Created by Pooria on 21/05/15.
  */
 public class AppPreferences extends ActionBarActivity {
 
+    // connecting this class into side Menu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -31,7 +27,7 @@ public class AppPreferences extends ActionBarActivity {
 
 
     }
-
+    // in this method, the Intent is getting connected to appPrefrences, Main Acticity and the right XML file
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -47,16 +43,15 @@ public class AppPreferences extends ActionBarActivity {
         }
     }
 
-
+    // In this Fragment, the Prefrences is getting connected to the XML file where Different Switch buttons are declared
     public static class SettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-            //setContentView(R.layout.settings_layout);
-            PreferenceManager prefMgr = getPreferenceManager();
-            prefMgr.getSharedPreferences();
-            prefMgr.setSharedPreferencesName("appPreferences");
+            //PreferenceManager prefMgr = getPreferenceManager();
+            //prefMgr.getSharedPreferences();
+            //prefMgr.setSharedPreferencesName("appPreferences");
         }
     }
 }

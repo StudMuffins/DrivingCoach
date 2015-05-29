@@ -8,12 +8,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Region;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -22,18 +17,13 @@ import android.view.WindowManager;
 public class FuelUI extends View {
 
     private Paint paint;
-    private Paint mFillPaint;
-    private Path maskArc;
     private RectF rectECO;
     private RectF rectFUEL;
     private RectF rectClip;
-    private float signal;
     private String textType;
-    private int clipHeight;
     private float xC;
-    private float yC;
     private float angle;
-    private Path mClippingPath;
+
 
     public FuelUI(Context context) {
         super(context);
@@ -44,41 +34,41 @@ public class FuelUI extends View {
         initVector(context);
     }
 
+    // Initialise variables
     public void initVector(Context context) {
-        //apply ANTI_ALIAS for smoothing out the edges of the shapes
+        // Apply ANTI_ALIAS for smoothing out the edges of the shapes
         paint = new Paint();
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(70);
-
+        // Retrieve the display metrics of the current phone in use
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         final DisplayMetrics displayMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(displayMetrics);
-        float height = displayMetrics.heightPixels/2;
         xC = displayMetrics.widthPixels/2;
 
         rectECO = new RectF();
         rectFUEL = new RectF();
         rectClip = new RectF();
 
-        //arrow_2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow_2);
     }
 
     public void setClipping(float progress, float getText) {
 
         int convertText = (int) getText;
         textType = Integer.toString(convertText);
+
         angle = (progress * 360)/100;
+
         postInvalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //Clip the canvas
+        // Clip the canvas
 
-        //get the width and height of the canvas
+        // Get the width and height of the canvas
         float width = getWidth();
         float height = getHeight();
         float yC = getHeight()/2 + 450; // -290
@@ -87,14 +77,14 @@ public class FuelUI extends View {
         float dR = xC + xC - 300;
         float dD = yC + xC - 300;
 
-        //establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
-        //rectECO.set(xC - 500, yC - 500, xC + 500, yC + 500);
+        // Establish the coordinates and size of each rectangle (Left(x), Top(y), Right(x), Bottom(y));
         rectFUEL.set(dL, dT, dR, dD);
         rectECO.set(dL + 10, dT + 10, dR - 10, dD - 10);
         rectClip.set(0, dT - 25, width, height);
-        //Colour and draw the clip arcs of each rectangle
+
+        // Colour and draw the clip arcs of each rectangle
         paint.setShadowLayer(16.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
-        paint.setColor(Color.parseColor("#FAFAFA"));
+        paint.setColor(Color.parseColor("#F5F5F5"));
         canvas.drawRect(rectClip, paint);
         paint.clearShadowLayer();
         paint.setColor(Color.parseColor("#000000"));
@@ -105,11 +95,14 @@ public class FuelUI extends View {
 
         paint.setColor(Color.parseColor("#FAFAFA"));
         canvas.drawArc(rectECO, 0, 360, true, paint);
-        //canvas.drawArc(rectECO, 20, 130, true, paint);
-        //colour and draw the gear value text
 
+        // Colour and draw the gear value text
         paint.setColor(Color.parseColor("#000000"));
-        paint.setAlpha(208);
-        canvas.drawText(textType, xC, yC + 30, paint);
+        paint.setAlpha(222);
+        paint.setTextSize(70);
+        canvas.drawText(textType, xC, yC + 20, paint);
+        paint.setAlpha(138);
+        paint.setTextSize(30);
+        canvas.drawText("km/l", xC, yC + 50, paint);
     }
 }

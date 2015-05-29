@@ -24,20 +24,6 @@ class AGASystem extends AsyncTask<Object, Object, Object> {
     public static float value;
     public static int signal;
     private static final AutomotiveCertificate amc = new AutomotiveCertificate(new byte[0]);
-    //if (map.containsKey(AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY)) {
-        //value = (SCSFloat) automotiveSignal.getData();
-
-        //System.out.println("SignalID: " + AutomotiveSignalId.FMS_INSTANTANEOUS_FUEL_ECONOMY + " - AGA:"+  value);
-        //}
-
-        // Printing out hashmap
-                    /*System.out.println("Hash Map O/P");
-                    Iterator it = map.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pair = (Map.Entry)it.next();
-                        System.out.println(pair.getKey() + " = " + pair.getValue());
-                        it.remove(); // avoids a ConcurrentModificationException
-                    }*/
 
     protected Object doInBackground(Object...objects) {
         // Access to Automotive API
@@ -45,7 +31,6 @@ class AGASystem extends AsyncTask<Object, Object, Object> {
             @Override
             public void receive(final AutomotiveSignal automotiveSignal) {
 
-                //System.out.println("PING!");
                 signal = automotiveSignal.getSignalId();
 
                 if (signal == AutomotiveSignalId.FMS_CURRENT_GEAR) {
@@ -56,9 +41,8 @@ class AGASystem extends AsyncTask<Object, Object, Object> {
                 } else {
                     value = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
                 }
-                map.put(signal, value);
-                //System.out.println(" signal: " + signal + " value: " + value);
 
+                map.put(signal, value);
             }
 
             @Override
@@ -79,12 +63,6 @@ class AGASystem extends AsyncTask<Object, Object, Object> {
                 AutomotiveSignalId.FMS_BRAKE_SWITCH);
         manager.setListener(aml);
         return null;
-    }
-
-    public void addListener(int listener) {
-        //System.out.println(listener);
-        map.put(listener, value);
-        //doRegister(listener);
     }
 }
 

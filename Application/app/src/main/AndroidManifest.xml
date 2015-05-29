@@ -18,7 +18,7 @@
         android:theme="@style/CustomActionBarTheme" >
         <activity
             android:name=".SplashScreen"
-            android:label=".application" >
+            android:label="DrivingCoach" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="andorid.intent.category.HOME" />
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
-            android:label=".application">
+            android:label="DrivingCoach">
 
         </activity>
 

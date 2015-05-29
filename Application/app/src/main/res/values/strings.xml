@@ -6,7 +6,7 @@
     <string name="progress_button_text">See Progress Scores</string>
     <string-array name="nav_drawer_items">
         <item>Coaching</item>
-        <item>Swap Cars</item>
+
         <item>Edit Cars</item>
         <item>Progress Tracking</item>
         <item>Settings</item>

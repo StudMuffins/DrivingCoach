@@ -17,12 +17,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/gearFrag"
             android:name="com.studmuffins.application.GearModule"/>
+ <!--
         <fragment
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/brakeFrag"
             android:name="com.studmuffins.application.BrakeModule" />
-
+-->
         <fragment
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

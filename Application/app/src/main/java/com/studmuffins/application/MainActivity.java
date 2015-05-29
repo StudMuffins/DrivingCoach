@@ -28,9 +28,10 @@ public class MainActivity extends BaseActivity {
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
         gearMod = (GearModule) getFragmentManager().findFragmentById(R.id.gearFrag);
         appPref = getSharedPreferences("appPreferences", MODE_PRIVATE);
-
         set(navMenuTitles);
         new AGASystem().execute();
+
+        // Initialize text to speech
         ttsManager = new TTSManager();
         ttsManager.init(this);
 
@@ -40,7 +41,6 @@ public class MainActivity extends BaseActivity {
                 while (true) {
 
                     boo = appPref.getBoolean("voiceFeed", true);
-                    //System.out.println("BOO!!!  " + boo);
 
                     if (boo == true) {
                         checkInputs();
@@ -56,7 +56,8 @@ public class MainActivity extends BaseActivity {
         }).start();
     }
 
-
+    // Checks input of string
+    // then adds it to queue to be played
     public void checkInputs() {
         text = gearMod.gearChange();
         if (text != cloneText) {
