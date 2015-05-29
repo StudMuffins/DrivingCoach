@@ -7,36 +7,46 @@ import android.swedspot.automotiveapi.AutomotiveSignalId;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 /**
  * Created by oscarbergstrom on 03/05/15.
+ *
+ * The breaking module is calculating the jerk (m/s^3) to find out how slow a deceleration is.
+ * The lower the deceleration is the safer the driver is decelerating. Is the driver pedal-
+ * braking, the score (jerk) gets higher.
  */
 
 
 public class BrakeModule extends Fragment {
 
+    // Introducing variables
+
     public Float brake;
     private float brakeValue;
-    public Float print;
-    private float velocity;
-    private long startTime;         // nanoseconds
-    private long stopTime;          // nanoseconds
-    private float elapsedTime;       // nanoseconds
-    private float seconds;          //seconds
-    private float deceleration;    // m/s^2
-    private float jerk;              // m/s^3
+    public Float print;                         // km/h
+    private float velocity;                     // Current velocity from aga (m/s)
+    private long startTime;                     // Time-print from when deceleration starts (ns)
+    private long stopTime;                      // Time-print from when deceleration stops (ns)
+    private float elapsedTime;                  // Elapsed time during deceleration (ns)
+    private float seconds;                      // seconds
+    private float deceleration;                 // Average deceleration value (m/s^2)
+    private float jerk;                         // Jerk calculated (m/s^3)
     private AGASystem aga = new AGASystem();
-    private TextView text;
     private Handler mHandler = new Handler();
-    private float initVelocity;
-    private float currentVelocity;
-    private float finalVelocity;
+    private float initVelocity;                 // initial velocity when deceleration starts (m/s)
+    private float currentVelocity;              // current velocity of vehicle (m/s)
+    private float finalVelocity;                // final velocity after a deceleration (m/s)
     private float initProgress;
     private float finalProgress;
     private int res;
     private BrakeUI ui;
+    private float totalJerk;                    // All of the jerk values added together.
+    private double safeJerks;
+    private double totalAmountOfJerks;
+    private double score;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,34 +59,47 @@ public class BrakeModule extends Fragment {
         return view;
     }
 
+    // Initialize final velocity and deceleration to 0.
+
     private void initVar() {
         finalVelocity = 0;
         deceleration = 0;
+        totalJerk = 0;
+        safeJerks = 0;
+        totalAmountOfJerks = 0;
+        score = 0;
+
+
     }
 
 
     public void autoListener() {
 
+        //start thread
+
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
 
-                    print = aga.map.get(AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);
+                    print = aga.map.get(AutomotiveSignalId.FMS_WHEEL_BASED_SPEED);  //get value from aga
 
-                    if (print != null) {
+                    if (print != null) {                                            //convert to float
                         velocity = (float) (print / 3.6);
                     }
 
-                    currentVelocity = velocity;
+                    currentVelocity = velocity;               //set converted value to currentVelocity
+
+                    // Check if car has stopped
 
                     if (currentVelocity > finalVelocity || currentVelocity < 1) {
-
                         check();
 
-                    } else
-                    if (currentVelocity < initVelocity) {
-                        if (startTime == 0) {
-                            startTime = System.nanoTime();
+
+                    // If car starts decelerating
+
+                    } else if (currentVelocity < initVelocity) {
+                        if (startTime == 0) {                                   //if timer not started:
+                            startTime = System.nanoTime();                      //start timing
                         }
                         finalVelocity = currentVelocity;
                         finalProgress = (finalVelocity/83) * 100;
@@ -105,12 +128,13 @@ public class BrakeModule extends Fragment {
     }
 
     private void check() {
+
         if (finalVelocity < initVelocity && initVelocity > 0 && startTime > 0) {
 
-            stopTime = System.nanoTime();
-            elapsedTime = stopTime - startTime;
-            seconds = elapsedTime / 1000000000;
-            deceleration = (initVelocity - finalVelocity) / seconds;
+            stopTime = System.nanoTime();                           //stop the timer
+            elapsedTime = stopTime - startTime;                     //Calculate the elapsed time
+            seconds = elapsedTime / 1000000000;                     //Convert nanoseconds to seconds
+            deceleration = (initVelocity - finalVelocity) / seconds;//Calculate deceleration
 
             //System.out.println("Elapsed time: " + seconds + "sec");
 
@@ -118,17 +142,17 @@ public class BrakeModule extends Fragment {
             //System.out.println("Final velocity: " + finalVelocity);
            // System.out.println("Deceleration value: " + deceleration);
 
-            brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);
-            if (brake != null) {
+            brake = aga.map.get(AutomotiveSignalId.FMS_BRAKE_SWITCH);   //get value from AGA
+
+            if (brake != null) {                                        //convert to float
                 brakeValue = brake;
             }
 
-            if (brakeValue == 0) {
+            if (brakeValue == 0) {                                      //check if brake is applied
                 calculateBrake();
             } else {
                 calculateEngineBrake();
             }
-
 
         } else if (deceleration == 0) {
             res = 1;
@@ -136,12 +160,14 @@ public class BrakeModule extends Fragment {
         }
     }
 
+    // Calculating the jerks, adding 50% (*1.5) if brake pedal is applied.
 
     private void calculateBrake() {
 
-        jerk = (float) ((deceleration / seconds) * 0.5);
+        jerk = (float) ((deceleration / seconds) * 1.5);
         //System.out.println("Pedal brake = " + jerk);
         //System.out.println("_____________________________");
+        addJerk(jerk);
         res = 0;
         reset(res);
     }
@@ -151,14 +177,18 @@ public class BrakeModule extends Fragment {
         jerk = (deceleration / seconds);
        // System.out.println("Engine brake = " + jerk);
         //System.out.println("_____________________________");
+        addJerk(jerk);                                          //send jerk to addJerk;
         res = 0;
         reset(res);
     }
+
+    // Reset the values before looping again.
 
     private void reset(int res) {
 
         finalVelocity = currentVelocity;
         startTime = 0;
+        jerk = 0;
         //System.out.println("ACCELERATING!");
 
         if (res == 0) {
@@ -171,4 +201,24 @@ public class BrakeModule extends Fragment {
             initVelocity = currentVelocity;
         }
     }
+
+    private void addJerk (float t){
+        if(t < 2.0){
+            safeJerks++;
+        }
+        totalAmountOfJerks++;
+
+        totalJerk += t;
+    }
+
+
+    public void setTotalScore(){
+        score = 100 * (safeJerks / totalAmountOfJerks);
+        System.out.println("You got a total score of: " + score + "% with a total jerk of " + totalJerk + "m/s^3 during the whole trip.");
+    }
+
+    public double getScore(){
+        return score;
+    }
+
 }

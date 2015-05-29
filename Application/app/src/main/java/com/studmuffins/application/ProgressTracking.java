@@ -22,6 +22,7 @@ public class ProgressTracking extends BaseActivity {
     private TextView text_brake;
     private LinearLayout fuelLayout, gearLayout, brakeLayout;
 
+
     // constructor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
